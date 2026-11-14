@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BS Applied AI &amp; Data Science</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NQ0MEWSWX8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NQ0MEWSWX8');
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Minimal top-left theme switch button -->
+  <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle theme">dark</button>
+
+  <!-- Minimal top-right offline site download button -->
+  <button class="offline-download-btn" id="offlineDownloadBtn" aria-label="Download site offline" title="Download complete site offline (HTML notes only)">offline ⤓</button>
+
+  <div class="wrap">
+    <!-- Hero / Exact requested statement -->
+    <header class="hero">
+      <div class="manifesto">
+        All rights <span class="unreserved-stylised">UN RESERVED</span>, and the content here belongs to no one. Use it, throw it, gaze at it—nobody cares.
+      </div>
+    </header>
+
+    <!-- Semesters 1-4 -->
+    <main class="catalog" id="semestersList">
+      <div class="semester-block" data-id="1">
+        <div class="sem-header">
+          <button class="sem-btn">
+            <span class="sem-title">Semester 01</span>
+          </button>
+          <div class="sem-actions">
+            <button class="sem-snapshot-btn" data-sem="1" title="Download all Semester 01 notes as ZIP">snapshot</button>
+            <span class="sem-num">01</span>
+          </div>
+        </div>
+        <div class="sem-body">
+          <div class="empty-sem-container">
+            <span class="empty-sem-text">नहीं है मेरे पास</span>
+          </div>
+        </div>
+      </div>
+      <div class="semester-block" data-id="2">
+        <div class="sem-header">
+          <button class="sem-btn">
+            <span class="sem-title">Semester 02</span>
+          </button>
+          <div class="sem-actions">
+            <button class="sem-snapshot-btn" data-sem="2" title="Download all Semester 02 notes as ZIP">snapshot</button>
+            <span class="sem-num">02</span>
+          </div>
+        </div>
+        <div class="sem-body">
+          <div class="empty-sem-container">
+            <span class="empty-sem-text">नहीं है मेरे पास</span>
+          </div>
+        </div>
+      </div>
+      <div class="semester-block" data-id="3">
+        <div class="sem-header">
+          <button class="sem-btn">
+            <span class="sem-title">Semester 03</span>
+          </button>
+          <div class="sem-actions">
+            <button class="sem-snapshot-btn" data-sem="3" title="Download all Semester 03 notes as ZIP">snapshot</button>
+            <span class="sem-num">03</span>
+          </div>
+        </div>
+        <div class="sem-body">
+          <div class="empty-sem-container">
+            <span class="empty-sem-text">नहीं है मेरे पास</span>
+          </div>
+        </div>
+      </div>
+      <div class="semester-block" data-id="4">
+        <div class="sem-header">
+          <button class="sem-btn">
+            <span class="sem-title">Semester 04</span>
+          </button>
+          <div class="sem-actions">
+            <button class="sem-snapshot-btn" data-sem="4" title="Download all Semester 04 notes as ZIP">snapshot</button>
+            <span class="sem-num">04</span>
+          </div>
+        </div>
+        <div class="sem-body">
+          <div class="subjects-row">
+            <div class="subj-item" data-sem="4" data-id="ml2">
+              <div class="subj-name">Machine Learning 2</div>
+            </div>
+            <div class="subj-item" data-sem="4" data-id="oop">
+              <div class="subj-name">Object Oriented Programming</div>
+            </div>
+            <div class="subj-item" data-sem="4" data-id="bdm">
+              <div class="subj-name">Basics of Data Mining</div>
+            </div>
+            <div class="subj-item" data-sem="4" data-id="itw">
+              <div class="subj-name">Introduction to Web Technologies</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Floating subpage -->
+  <div class="floating-subpage" id="floatingSubpage">
+    <div class="floating-card">
+      <div class="floating-header">
+        <div id="activeSubjectMeta" style="font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-main);"></div>
+        <div class="floating-actions">
+          <button class="action-btn" id="pdfBtn" title="Download PDF notes">pdf</button>
+          <button class="action-btn fullscreen-btn" id="fullscreenBtn" title="Full screen" aria-label="Toggle full screen">
+            <svg class="fs-icon fs-expand" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+            </svg>
+            <svg class="fs-icon fs-compress" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+            </svg>
+          </button>
+          <button class="action-btn close-btn" id="closeBtn" title="Close">esc</button>
+        </div>
+      </div>
+
+      <!-- Floating 4 subjects of that semester -->
+      <div class="floating-tabs" id="floatingTabs"></div>
+
+      <!-- Weeks & Plain HTML notes -->
+      <div class="floating-body">
+        <aside class="floating-sidebar" id="weeksList"></aside>
+        <div class="floating-content">
+          <div class="plain-html-content" id="notesTarget"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./lib/jszip.min.js"></script>
+  <script src="./curriculum.js?v=1794674429"></script>
+  <script src="./app.js?v=1794674429"></script>
+</body>
+</html>
