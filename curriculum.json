@@ -92,6 +92,12 @@
               "title": "Machine Learning 2 - Week 11",
               "htmlPath": "notes/html/sem4/ml2/week11.html",
               "pdfPath": "notes/pdf/sem4/ml2/ML2_Week11.pdf"
+            },
+            {
+              "week": 12,
+              "title": "Machine Learning 2 - Week 12",
+              "htmlPath": "notes/html/sem4/ml2/week12.html",
+              "pdfPath": "notes/pdf/sem4/ml2/ML2_Week12.pdf"
             }
           ]
         },
@@ -165,6 +171,12 @@
               "title": "Object Oriented Programming - Week 11",
               "htmlPath": "notes/html/sem4/oop/week11.html",
               "pdfPath": "notes/pdf/sem4/oop/OOP_Week11.pdf"
+            },
+            {
+              "week": 12,
+              "title": "Object Oriented Programming - Week 12",
+              "htmlPath": "notes/html/sem4/oop/week12.html",
+              "pdfPath": "notes/pdf/sem4/oop/OOP_Week12.pdf"
             }
           ]
         },
@@ -237,6 +249,12 @@
               "title": "Basics of Data Mining - Week 11",
               "htmlPath": "notes/html/sem4/bdm/week11.html",
               "pdfPath": "notes/pdf/sem4/bdm/BDM_Week11.pdf"
+            },
+            {
+              "week": 12,
+              "title": "Basics of Data Mining - Week 12",
+              "htmlPath": "notes/html/sem4/bdm/week12.html",
+              "pdfPath": "notes/pdf/sem4/bdm/BDM_Week12.pdf"
             }
           ]
         },
@@ -309,6 +327,12 @@
               "title": "Introduction to Web Technologies - Week 11",
               "htmlPath": "notes/html/sem4/itw/week11.html",
               "pdfPath": "notes/pdf/sem4/itw/IWT_Week11.pdf"
+            },
+            {
+              "week": 12,
+              "title": "Introduction to Web Technologies - Week 12",
+              "htmlPath": "notes/html/sem4/itw/week12.html",
+              "pdfPath": "notes/pdf/sem4/itw/IWT_Week12.pdf"
             }
           ]
         }
