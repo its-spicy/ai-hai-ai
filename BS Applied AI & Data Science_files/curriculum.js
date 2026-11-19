@@ -98,6 +98,12 @@ const CURRICULUM = {
               "title": "Machine Learning 2 - Week 12",
               "htmlPath": "notes/html/sem4/ml2/week12.html",
               "pdfPath": "notes/pdf/sem4/ml2/ML2_Week12.pdf"
+            },
+            {
+              "week": 13,
+              "title": "Machine Learning 2 - Week 13",
+              "htmlPath": "notes/html/sem4/ml2/week13.html",
+              "pdfPath": "notes/pdf/sem4/ml2/ML2_Week13.pdf"
             }
           ]
         },
@@ -255,6 +261,12 @@ const CURRICULUM = {
               "title": "Basics of Data Mining - Week 12",
               "htmlPath": "notes/html/sem4/bdm/week12.html",
               "pdfPath": "notes/pdf/sem4/bdm/BDM_Week12.pdf"
+            },
+            {
+              "week": 13,
+              "title": "Basics of Data Mining - Week 13",
+              "htmlPath": "notes/html/sem4/bdm/week13.html",
+              "pdfPath": "notes/pdf/sem4/bdm/BDM_Week13.pdf"
             }
           ]
         },
@@ -333,6 +345,12 @@ const CURRICULUM = {
               "title": "Introduction to Web Technologies - Week 12",
               "htmlPath": "notes/html/sem4/itw/week12.html",
               "pdfPath": "notes/pdf/sem4/itw/IWT_Week12.pdf"
+            },
+            {
+              "week": 13,
+              "title": "Introduction to Web Technologies - Week 13",
+              "htmlPath": "notes/html/sem4/itw/week13.html",
+              "pdfPath": "notes/pdf/sem4/itw/IWT_Week13.pdf"
             }
           ]
         }
