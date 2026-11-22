@@ -183,6 +183,12 @@
               "title": "Object Oriented Programming - Week 12",
               "htmlPath": "notes/html/sem4/oop/week12.html",
               "pdfPath": "notes/pdf/sem4/oop/OOP_Week12.pdf"
+            },
+            {
+              "week": 13,
+              "title": "Object Oriented Programming - Week 13",
+              "htmlPath": "notes/html/sem4/oop/week13.html",
+              "pdfPath": "notes/pdf/sem4/oop/OOP_Week13.pdf"
             }
           ]
         },
